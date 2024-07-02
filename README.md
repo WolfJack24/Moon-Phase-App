@@ -2,11 +2,7 @@
 
 A "simlpe" app to request a specific moon phase by date and other parameters to show how it looks
 
----
-
 > Warning: This is not close to finished!
-
----
 
 ## Get-Started
 
