@@ -1,6 +1,6 @@
 # Moon-Phase-App
 
-A "simlpe" app to request a specific moon phase by date and other parameters to show how it looks
+A "simple" app to request a specific moon phase by date and other parameters to show how it looks
 
 > Warning: This is not close to finished!
 
