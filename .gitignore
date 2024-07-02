@@ -1,0 +1,17 @@
+# Ignore the __pycache__ folder
+__pycache__
+
+# Ignore th .venv folder
+.venv
+
+# Ignore the images folder
+images
+
+# Ignore the data.json file
+info/data.json
+
+# Ignore the .env file
+.env
+
+# For now, Ignore the payload.py file
+payload.py
