@@ -17,8 +17,6 @@ AUTH_STRING: str = base64.b64encode(USER_PASS.encode()).decode()
 CONN: HTTPSConnection = HTTPSConnection(
     "api.astronomyapi.com")
 
-# info\payload.json
-
 
 def get_image() -> str:
     try:
