@@ -11,8 +11,8 @@ First off get yourself a API key for free at: [Astronomy API](https://docs.astro
 When you get your `APP_ID` and `APP_SECRET`, make a `.env` file that looks like this:
 
 ```properties
-APP_ID=key
-APP_SECRET=key
+APP_ID=key # add app id
+APP_SECRET=key # and add the app secret
 ```
 
 ```PowerShell
