@@ -54,8 +54,10 @@ class App(ctk.CTk):
         def load_image():
             image_path = f"images/{DATE}.jpg"
             if os.path.exists(image_path):
+                image = Image.open(image_path)
                 self.image.configure(image=ctk.CTkImage(
-                    Image.open(image_path), Image.open(image_path), (200, 260)))
+                    image, image, (200, 260)))
+                image.close()
 
         def open_toplevel():
             if self.window_dialog is None or not self.window_dialog.winfo_exists():
