@@ -4,7 +4,7 @@ A "simple" app to request a specific moon phase by date and other parameters to 
 
 > Warning: This is not close to finished!
 
-### Get-Started
+## Get-Started
 
 First off get yourself a API key for free at: [Astronomy API](https://docs.astronomyapi.com/)
 
