@@ -6,8 +6,17 @@ A "simple" app to request a specific moon phase by date and other parameters to 
 
 ## Get-Started
 
+First off get yourself a API key for free at: [Astronomy API](https://docs.astronomyapi.com/)
+
+When you get your `APP_ID` and `APP_SECRET`, make a `.env` file that looks like this:
+
+```properties
+APP_ID=key
+APP_SECRET=key
+```
+
 ```PowerShell
-    python -m venv .venv # Create the venv in the folder of choice
-    pip install requirements.txt # Install the needed librarys
-    py .\main.py # run the app
+python -m venv .venv # Create the venv in the folder of choice
+pip install requirements.txt # Install the needed librarys
+py .\main.py # run the app
 ```
