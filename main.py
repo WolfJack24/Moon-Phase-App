@@ -3,7 +3,7 @@ from gui import App
 
 
 def main():
-    app = App(size="600x400", title="Moon Phase")
+    app = App(size="500x400", title="Moon Phase App")
     app.mainloop()
 
 

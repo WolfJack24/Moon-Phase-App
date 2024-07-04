@@ -4,7 +4,7 @@ A "simple" app to request a specific moon phase by date and other parameters to 
 
 > Warning: This is not close to finished!
 
-## Get-Started
+### Get-Started
 
 First off get yourself a API key for free at: [Astronomy API](https://docs.astronomyapi.com/)
 
@@ -20,3 +20,8 @@ python -m venv .venv # Create the venv in the folder of choice
 pip install requirements.txt # Install the needed librarys
 py .\main.py # run the app
 ```
+
+### Design
+
+The layout of this project is a Figma file:
+[Moon Phase App Layout](https://www.figma.com/design/45IkxmpJ02QLcfx7dg3Ve6/Moon-Phase-App?node-id=0-1&t=NAOEOGGjnye4eSVL-1)
