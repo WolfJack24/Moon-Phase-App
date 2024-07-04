@@ -29,21 +29,27 @@ class InfoPanel(ctk.CTkToplevel):
     def __init__(self):
         super().__init__()
 
-        self.geometry("200x400")
+        self.geometry("200x180")
         self.title("Info Dialog")
         self.resizable(False, False)
 
-        self.date_input = ctk.CTkEntry(
+        self.date = ctk.CTkEntry(
             self, placeholder_text="Date: YYYY-MM-DD")
-        self.date_input.pack(padx=20, pady=10)
+        self.date.place(x=30, y=22)
 
-    def get_info(self, name: str, module: str) -> Any:
-        if module == "entry":
-            return getattr(self, name).get()
-        elif module == "combobox":
-            return getattr(self, name).cget("text")
-        else:
-            return ""
+        self.style = ctk.CTkComboBox(
+            self, corner_radius=5,
+            values=["Default", "Sketch", "Shaded"])
+        self.style.set("Default")
+        self.style.place(x=30, y=58)
+
+        self.orientation = ctk.CTkComboBox(
+            self, corner_radius=5, values=["North Up", "South Up"])
+        self.orientation.set("South Up")
+        self.orientation.place(x=30, y=94)
+
+        self.update = ctk.CTkButton(self, text="Update")
+        self.update.place(x=30, y=130)
 
 
 class App(ctk.CTk):
@@ -88,15 +94,3 @@ class App(ctk.CTk):
         self.gen_button = ctk.CTkButton(
             self, text="Gen Image", command=get_and_download_image)
         self.gen_button.place(x=330, y=300)
-
-        # self.enter_button = ctk.CTkButton(
-        #     self, text="Update", command=self.print_date)
-        # self.enter_button.grid(column=0, row=1)
-
-        # self.date = None
-
-    # def print_date(self):
-    #     if hasattr(self, "window_dialog") and self.window_dialog:
-    #         self.date = self.window_dialog.get_info("date_input", "entry")
-    #     if self.date is not None:
-    #         print(self.date)
