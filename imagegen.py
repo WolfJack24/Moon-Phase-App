@@ -18,7 +18,11 @@ CONN: HTTPSConnection = HTTPSConnection(
     "api.astronomyapi.com")
 
 
-def payload_config(date: str, moon_style: str, orientation: str) -> Dict[str, Any]:
+def payload_config(
+    date: str,
+    moon_style: str = "default",
+    orientation: str = "south-up"
+) -> Dict[str, Any]:
     return {
         "format": "png",
         "style": {
@@ -41,7 +45,7 @@ def payload_config(date: str, moon_style: str, orientation: str) -> Dict[str, An
 
 
 def get_image() -> Tuple[Any]:
-    payload = payload_config("2024-07-04", "default", "south-up")
+    payload = payload_config("2024-07-18", "default", "south-up")
 
     payload_json = json.dumps(payload)
     parsed_data = json.loads(payload_json)
