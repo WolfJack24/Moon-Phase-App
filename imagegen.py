@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring, missing-function-docstring
 from http.client import HTTPSConnection, HTTPResponse
 import json
-from typing import Final
+from typing import Final, Tuple, Dict, Any
 import os
 import base64
 from requests import get as requestsget, Response
@@ -18,16 +18,32 @@ CONN: HTTPSConnection = HTTPSConnection(
     "api.astronomyapi.com")
 
 
-def get_image() -> str:
-    try:
-        with open("info/payload.json", "r", encoding="utf-8") as json_file:
-            json_data: str = json.load(json_file)
-    except FileNotFoundError:
-        print("payload.json doe's not exist")
-    except json.JSONDecodeError:
-        print("Could not decode file: payload.json")
+def payload_config(date: str, moon_style: str, orientation: str) -> Dict[str, Any]:
+    return {
+        "format": "png",
+        "style": {
+            "moonStyle": moon_style,
+            "backgroundStyle": "stars",
+            "backgroundColor": "black",
+            "headingColor": "white",
+            "textColor": "white"
+        },
+        "observer": {
+            "latitude": 6.56774,
+            "longitude": 79.88956,
+            "date": date
+        },
+        "view": {
+            "type": "portrait-simple",
+            "orientation": orientation
+        }
+    }
 
-    payload_json = json.dumps(json_data)
+
+def get_image() -> Tuple[Any]:
+    payload = payload_config("2024-07-04", "default", "south-up")
+
+    payload_json = json.dumps(payload)
     parsed_data = json.loads(payload_json)
     encoded_payload = payload_json.encode()
 
@@ -40,10 +56,7 @@ def get_image() -> str:
     data: str = response.read().decode("utf-8")
     date_request: str = parsed_data["observer"]["date"]
 
-    with open("info/data.json", "w", encoding="utf-8") as file:
-        file.write(data)
-
-    return date_request
+    return date_request, data
 
 
 def download_image(url: str, filename: str) -> None:

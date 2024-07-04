@@ -1,28 +1,23 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring
 import os
 import json
-from typing import Any
 import customtkinter as ctk
 from PIL import Image
 from imagegen import get_image, download_image
 
 
-DATE = get_image()
+DATE, FILE_DATA = get_image()
 
 
 def get_and_download_image() -> None:
-    try:
-        if os.path.exists("info/data.json"):
-            with open("info/data.json", "r", encoding="utf-8") as json_file:
-                image_data: str = json.load(json_file)
-    except FileNotFoundError:
-        print("payload.json doe's not exist")
-    except json.JSONDecodeError:
-        print("Could not decode file: payload.json")
-
-    image_json = json.dumps(image_data)
+    image_json = json.dumps(FILE_DATA)
     parsed_data = json.loads(image_json)
-    download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
+
+    if isinstance(parsed_data, str):
+        parsed_data = json.loads(parsed_data)
+        download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
+    else:
+        print("the data was not a dict")
 
 
 class InfoPanel(ctk.CTkToplevel):
