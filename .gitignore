@@ -9,3 +9,6 @@ images
 
 # Ignore the .env file
 .env
+
+# Ignore output folder
+output
