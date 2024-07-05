@@ -17,7 +17,7 @@ APP_SECRET=key # and add the app secret
 
 ```PowerShell
 python -m venv .venv # Create the venv in the folder of choice
-pip install requirements.txt # Install the needed librarys
+python -m pip install -r requirements.txt # Install the needed librarys
 py .\main.py # run the app
 ```
 
