@@ -1,4 +1,4 @@
-# pylint: disable=missing-module-docstring, missing-function-docstring
+# pylint: disable=missing-module-docstring, missing-function-docstring, global-statement
 from http.client import HTTPSConnection, HTTPResponse
 import json
 from typing import Final, Tuple, Dict, Any
@@ -17,12 +17,23 @@ AUTH_STRING: str = base64.b64encode(USER_PASS.encode()).decode()
 CONN: HTTPSConnection = HTTPSConnection(
     "api.astronomyapi.com")
 
+payload: Dict[str, Any] | None = None
+
 
 def payload_config(
-    date: str,
-    moon_style: str = "default",
-    orientation: str = "south-up"
+    date: str | None,
+    moon_style: str | None,
+    orientation: str | None
 ) -> Dict[str, Any]:
+    if date is None:
+        date = "2024-07-18"
+
+    if moon_style is None:
+        moon_style = "default"
+
+    if orientation is None:
+        orientation = "south-up"
+
     return {
         "format": "png",
         "style": {
@@ -44,10 +55,18 @@ def payload_config(
     }
 
 
-def get_image() -> Tuple[Any]:
-    payload = payload_config("2024-07-18", "default", "south-up")
+def update_payload(date: str, style: str, orientation: str) -> None:
+    global payload
+    payload = payload_config(date, style, orientation)
 
-    payload_json = json.dumps(payload)
+
+def get_image() -> Tuple[Any]:
+    if payload is None:
+        payload_json = json.dumps(payload_config(
+            "2024-07-18", "default", "south-up"))
+    else:
+        payload_json = json.dumps(payload)
+
     parsed_data = json.loads(payload_json)
     encoded_payload = payload_json.encode()
 

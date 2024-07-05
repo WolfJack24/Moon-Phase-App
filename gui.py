@@ -1,16 +1,17 @@
-# pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring
+# pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 import os
 import json
 import customtkinter as ctk
 from PIL import Image
-from imagegen import get_image, download_image
+from imagegen import update_payload, get_image, download_image
 
-
-DATE, FILE_DATA = get_image()
+DATE = None
 
 
 def get_and_download_image() -> None:
-    image_json = json.dumps(FILE_DATA)
+    global DATE
+    DATE, file_data = get_image()
+    image_json = json.dumps(file_data)
     parsed_data = json.loads(image_json)
 
     if isinstance(parsed_data, str):
@@ -43,8 +44,24 @@ class InfoPanel(ctk.CTkToplevel):
         self.orientation.set("South Up")
         self.orientation.place(x=30, y=94)
 
-        self.update = ctk.CTkButton(self, text="Update")
+        self.update = ctk.CTkButton(self, text="Update", command=self.update)
         self.update.place(x=30, y=130)
+
+    def update(self) -> None:
+        date: str = self.date.get()
+        style: str = self.style.get()
+        orientation: str = self.orientation.get()
+
+        if date == "":
+            date = "2024-07-18"
+
+        if not "-" in date:
+            date = date.replace(" ", "-")
+
+        style = style.lower()
+        orientation = orientation.lower().replace(" ", "-")
+
+        update_payload(date, style, orientation)
 
 
 class App(ctk.CTk):
