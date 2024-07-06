@@ -19,3 +19,6 @@ dist
 # Ignore .spec file
 *.spec
 
+# Ignore build.txt file
+*.txt
+
