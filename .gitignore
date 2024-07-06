@@ -9,3 +9,13 @@ images
 
 # Ignore the .env file
 .env
+
+# Ignore build folder
+build
+
+# Ignore dist folder
+dist
+
+# Ignore .spec file
+*.spec
+
