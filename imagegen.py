@@ -2,14 +2,14 @@
 from http.client import HTTPSConnection, HTTPResponse
 import json
 from typing import Final, Tuple, Dict, Any
-import os
+from os import getenv, path, mkdir
 import base64
-from requests import get as requestsget, Response
+from requests import get as requestsget, Response, ConnectionError as RequestsConnectionError
 from dotenv import load_dotenv
 
 load_dotenv()
-APP_ID: Final[str] = os.getenv("APP_ID")
-APP_SECRET: Final[str] = os.getenv("APP_SECRET")
+APP_ID: Final[str | None] = getenv("APP_ID")
+APP_SECRET: Final[str | None] = getenv("APP_SECRET")
 
 USER_PASS: str = f"{APP_ID}:{APP_SECRET}"
 AUTH_STRING: str = base64.b64encode(USER_PASS.encode()).decode()
@@ -60,7 +60,7 @@ def update_payload(date: str, style: str, orientation: str) -> None:
     payload = payload_config(date, style, orientation)
 
 
-def get_image() -> Tuple[Any]:
+def get_image() -> Tuple[str, str]:
     if payload is None:
         payload_json = json.dumps(payload_config(
             "2024-07-18", "default", "south-up"))
@@ -84,9 +84,15 @@ def get_image() -> Tuple[Any]:
 
 def download_image(url: str, filename: str) -> None:
     img_dir: str = "images"
-    response: Response = requestsget(url, timeout=3)
-    if not os.path.exists(img_dir):
-        os.mkdir(img_dir)
 
-    with open(f"{img_dir}/{filename}", "wb") as file:
-        file.write(response.content)
+    try:
+        response: Response = requestsget(url, timeout=10)
+        print("Connection Successful!")
+    except RequestsConnectionError:
+        print("User is NOT connected to the internet!")
+
+    if not path.exists(img_dir):
+        mkdir(img_dir)
+
+    with open(f"{img_dir}/{filename}", "wb") as picture:
+        picture.write(response.content)

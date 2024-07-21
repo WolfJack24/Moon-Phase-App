@@ -10,7 +10,7 @@ DATE = None
 
 def get_and_download_image() -> None:
     global DATE
-    DATE, file_data = get_image()
+    (DATE, file_data) = get_image()
     image_json = json.dumps(file_data)
     parsed_data = json.loads(image_json)
 
@@ -44,8 +44,8 @@ class InfoPanel(ctk.CTkToplevel):
         self.orientation.set("South Up")
         self.orientation.place(x=30, y=94)
 
-        self.update = ctk.CTkButton(self, text="Update", command=self.update)
-        self.update.place(x=30, y=130)
+        self.update_button = ctk.CTkButton(self, text="Update", command=self.update)
+        self.update_button.place(x=30, y=130)
 
     def update(self) -> None:
         date: str = self.date.get()
@@ -55,7 +55,7 @@ class InfoPanel(ctk.CTkToplevel):
         if date == "":
             date = "2024-07-18"
 
-        if not "-" in date:
+        if "-" not in date:
             date = date.replace(" ", "-")
 
         style = style.lower()

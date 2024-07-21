@@ -10,11 +10,5 @@ images
 # Ignore the .env file
 .env
 
-# Ignore obj and bin folders
-obj
-bin
-
-# Ignore cs files
-*.csproj
-*.sln
-*.cs
+# Ignore .vscode
+.vscode
