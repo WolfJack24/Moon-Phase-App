@@ -70,7 +70,7 @@ def get_image() -> Tuple[str, str]:
     parsed_data = json.loads(payload_json)
     encoded_payload = payload_json.encode()
 
-    headers: dict = {'Authorization': f"Basic {AUTH_STRING}"}
+    headers: Dict[str, str] = {'Authorization': f"Basic {AUTH_STRING}"}
 
     CONN.request(method="POST", url="/api/v2/studio/moon-phase",
                  body=encoded_payload, headers=headers)

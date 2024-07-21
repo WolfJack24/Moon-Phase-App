@@ -10,7 +10,7 @@ DATE = None
 
 def get_and_download_image() -> None:
     global DATE
-    (DATE, file_data) = get_image()
+    DATE, file_data = get_image()
     image_json = json.dumps(file_data)
     parsed_data = json.loads(image_json)
 
@@ -18,7 +18,7 @@ def get_and_download_image() -> None:
         parsed_data = json.loads(parsed_data)
         download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
     else:
-        print("the data was not a dict")
+        print("the data was not a dictionary")
 
 
 class InfoPanel(ctk.CTkToplevel):
