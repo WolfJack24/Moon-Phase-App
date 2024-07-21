@@ -29,3 +29,4 @@ The layout of this project is a Figma file:
 ## TODO
 
 - [ ] Make some functions Asynchronous to stop the app from freezing when the `Gen Button` is clicked
+- [ ] Add fully working notifications
