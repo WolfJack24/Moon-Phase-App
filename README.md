@@ -25,3 +25,7 @@ py .\main.py # run the app
 
 The layout of this project is a Figma file:
 [Moon Phase App Layout](https://www.figma.com/design/45IkxmpJ02QLcfx7dg3Ve6/Moon-Phase-App?node-id=0-1&t=NAOEOGGjnye4eSVL-1)
+
+## TODO
+
+- [ ] Make some functions Asynchronous to stop the app from freezing when the `Gen Button` is clicked
