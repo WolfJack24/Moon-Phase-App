@@ -18,7 +18,7 @@ def get_and_download_image() -> None:
         parsed_data = json.loads(parsed_data)
         download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
     else:
-        print("the data was not a dictionary")
+        print("The image data was not a dictionary")
 
 
 class InfoPanel(ctk.CTkToplevel):
@@ -44,7 +44,8 @@ class InfoPanel(ctk.CTkToplevel):
         self.orientation.set("South Up")
         self.orientation.place(x=30, y=94)
 
-        self.update_button = ctk.CTkButton(self, text="Update", command=self.update)
+        self.update_button = ctk.CTkButton(
+            self, text="Update", command=self.update)
         self.update_button.place(x=30, y=130)
 
     def update(self) -> None:
@@ -76,7 +77,7 @@ class App(ctk.CTk):
                     image, image, (200, 260)))
                 image.close()
 
-        def open_toplevel():
+        def open_infopanel():
             if self.window_dialog is None or not self.window_dialog.winfo_exists():
                 self.window_dialog = InfoPanel()
             else:
@@ -89,16 +90,24 @@ class App(ctk.CTk):
         self.title(title)
         self.resizable(False, False)
 
+        self.notif_frame = ctk.CTkFrame(
+            self, width=221, height=29, corner_radius=3, fg_color="#303030")
+        self.notif_frame.place(x=29, y=29)
+
+        self.notif_text = ctk.CTkLabel(
+            self.notif_frame, width=72, height=12, text="Notifications Not Working... Yet!")
+        self.notif_text.place(x=10, y=7)
+
         self.image_frame = ctk.CTkFrame(
             self, width=221, height=277, corner_radius=5, fg_color="#303030")
-        self.image_frame.place(x=30, y=60)
+        self.image_frame.place(x=29, y=85)
 
         self.image = ctk.CTkLabel(
             self.image_frame, width=200, height=260, text="")
         self.image.place(x=10, y=8)
 
         self.info_dialog = ctk.CTkButton(
-            self, text="Set Info", command=open_toplevel)
+            self, text="Set Info", command=open_infopanel)
         self.info_dialog.place(x=330, y=230)
 
         self.load_button = ctk.CTkButton(
