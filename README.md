@@ -30,3 +30,4 @@ The layout of this project is a Figma file:
 
 - [ ] Make some functions Asynchronous to stop the app from freezing when the `Gen Button` is clicked
 - [ ] Add fully working notifications
+- [ ] Use partial from functools to allow the varibles into funtions

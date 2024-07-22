@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 import os
 import json
+from functools import partial
 from customtkinter import (
     CTk,
     CTkFrame,
@@ -80,7 +81,7 @@ class App(CTk):
     def __init__(self, size: str, title: str):
         super().__init__()
 
-        def load_image():
+        def load_image() -> None:
             image_path = "images"
             if os.path.exists(image_path):
                 filename = filedialog.askopenfile(
@@ -92,7 +93,7 @@ class App(CTk):
                     image, image, (200, 260)))
                 image.close()
 
-        def open_infopanel():
+        def open_infopanel() -> None:
             if self.window_dialog is None or not self.window_dialog.winfo_exists():
                 self.window_dialog = InfoPanel()
             else:
