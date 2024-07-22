@@ -10,6 +10,7 @@ def main():
 
     if path.exists("images"):
         subprocess.run(["rm", "-rf", "images"], check=True)
+        print("Images was was deleted.")
     else:
         print("Images was not created.")
 
