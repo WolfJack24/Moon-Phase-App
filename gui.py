@@ -1,7 +1,8 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
-import os
+from os import path, getcwd
 import json
 from functools import partial
+from typing import Any
 from customtkinter import (
     CTk,
     CTkFrame,
@@ -13,21 +14,22 @@ from customtkinter import (
     CTkComboBox,
     filedialog
 )
-from PIL import Image
-from imagegen import update_payload, get_image, download_image
+from PIL import Image, ImageFile
+from imagegen import MoonPhaseRequester
 
-DATE = None
+requester = MoonPhaseRequester()
+DATE: str | None = None
 
 
 def get_and_download_image() -> None:
     global DATE
-    DATE, file_data = get_image()
-    image_json = json.dumps(file_data)
-    parsed_data = json.loads(image_json)
+    DATE, file_data = requester.get_image()
+    image_json: str = json.dumps(file_data)
+    parsed_data: Any = json.loads(image_json)
 
     if isinstance(parsed_data, str):
         parsed_data = json.loads(parsed_data)
-        download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
+        requester.download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
         print(f"The image {DATE} was downloaded!")
     else:
         print("The image data was not a dictionary")
@@ -74,7 +76,7 @@ class InfoPanel(CTkToplevel):
         style = style.lower()
         orientation = orientation.lower().replace(" ", "-")
 
-        update_payload(date, style, orientation)
+        requester.update_payload(date, style, orientation)
 
 
 class App(CTk):
@@ -82,16 +84,18 @@ class App(CTk):
         super().__init__()
 
         def load_image() -> None:
-            image_path = "images"
-            if os.path.exists(image_path):
+            image_path: str = "images"
+            if path.exists(image_path):
                 filename = filedialog.askopenfile(
                     defaultextension="jpg",
-                    initialdir=f"{os.getcwd()}/{image_path}"
+                    initialdir=f"{getcwd()}/{image_path}"
                 )
-                image = Image.open(str(filename.name))  # type: ignore
+                image: ImageFile.ImageFile = Image.open(str(filename.name))  # type: ignore
                 self.image.configure(image=CTkImage(
                     image, image, (200, 260)))
                 image.close()
+            else:
+                print("No Image's were generated!")
 
         def open_infopanel() -> None:
             if self.window_dialog is None or not self.window_dialog.winfo_exists():
