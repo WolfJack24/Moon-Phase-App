@@ -20,10 +20,10 @@ CONN: HTTPSConnection = HTTPSConnection(
 
 class MoonPhaseRequester:
     def __init__(self) -> None:
-        self.PAYLOAD: Dict[str, Any] | None = None
+        self.payload: Dict[str, Any] | None = None
 
     def update_payload(self, date: str, style: str, orientation: str) -> None:
-        self.PAYLOAD = self.payload_config(date, style, orientation)
+        self.payload = self.payload_config(date, style, orientation)
 
     def payload_config(
         self,
@@ -61,11 +61,11 @@ class MoonPhaseRequester:
         }
 
     def get_image(self) -> Tuple[str, str]:
-        if self.PAYLOAD is None:
+        if self.payload is None:
             payload_json: str = json.dumps(self.payload_config(
                 "2024-07-18", "default", "south-up"))
         else:
-            payload_json: str = json.dumps(self.PAYLOAD)
+            payload_json: str = json.dumps(self.payload)
 
         parsed_data: Any = json.loads(payload_json)
         encoded_payload: bytes = payload_json.encode()
