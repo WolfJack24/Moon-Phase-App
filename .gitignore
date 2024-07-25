@@ -12,3 +12,6 @@ images
 
 # Ignore .vscode
 .vscode
+
+# Ignore HTML folder, until web app is finished
+html
