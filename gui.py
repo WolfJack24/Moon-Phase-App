@@ -16,21 +16,23 @@ from customtkinter import (
 )
 from PIL import Image, ImageFile
 from imagegen import MoonPhaseRequester
+from constants import Constants
 
 requester = MoonPhaseRequester()
-DATE: str | None = None
+con = Constants()
 
 
 def get_and_download_image() -> None:
-    global DATE
-    DATE, file_data = requester.get_image()
+    con.DATE, file_data = requester.get_image()
     image_json: str = json.dumps(file_data)
     parsed_data: Any = json.loads(image_json)
+    (style, orientation) = requester.get_moon()
 
     if isinstance(parsed_data, str):
         parsed_data = json.loads(parsed_data)
-        requester.download_image(parsed_data["data"]["imageUrl"], f"{DATE}.jpg")
-        print(f"The image {DATE} was downloaded!")
+        requester.download_image(
+            parsed_data["data"]["imageUrl"], f"{con.DATE}_{style}_{orientation}.jpg")
+        print(f"The image {con.DATE}_{style}_{orientation}.jpg was downloaded!")
     else:
         print("The image data was not a dictionary")
 
@@ -84,13 +86,13 @@ class App(CTk):
         super().__init__()
 
         def load_image() -> None:
-            image_path: str = "images"
-            if path.exists(image_path):
+            if path.exists(con.IMAGE_PATH):
                 filename = filedialog.askopenfile(
                     defaultextension="jpg",
-                    initialdir=f"{getcwd()}/{image_path}"
+                    initialdir=f"{getcwd()}/{con.IMAGE_PATH}"
                 )
-                image: ImageFile.ImageFile = Image.open(str(filename.name))  # type: ignore
+                image: ImageFile.ImageFile = Image.open(
+                    str(filename.name))  # type: ignore
                 self.image.configure(image=CTkImage(
                     image, image, (200, 260)))
                 image.close()

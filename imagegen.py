@@ -6,6 +6,9 @@ from os import getenv, path, mkdir
 import base64
 from requests import get as requestsget, Response, ConnectionError as RequestsConnectionError
 from dotenv import load_dotenv
+from constants import Constants
+
+con = Constants()
 
 load_dotenv()
 APP_ID: Final[str | None] = getenv("APP_ID")
@@ -21,8 +24,19 @@ CONN: HTTPSConnection = HTTPSConnection(
 class MoonPhaseRequester:
     def __init__(self) -> None:
         self.payload: Dict[str, Any] | None = None
+        self.style: str | None = None
+        self.orientation: str | None = None
+
+    def get_moon(self) -> Tuple[str, str]:
+        if self.style is None:
+            self.style = con.DEFAULT_STYLE
+        if self.orientation is None:
+            self.orientation = con.DEFAULT_ORIENTATION
+        return self.style, self.orientation
 
     def update_payload(self, date: str, style: str, orientation: str) -> None:
+        self.style = style
+        self.orientation = orientation
         self.payload = self.payload_config(date, style, orientation)
 
     def payload_config(
@@ -32,13 +46,13 @@ class MoonPhaseRequester:
         orientation: str | None
     ) -> Dict[str, Any]:
         if date is None:
-            date = "2024-07-18"
+            date = con.DEFAULT_DATE
 
         if moon_style is None:
-            moon_style = "default"
+            moon_style = con.DEFAULT_STYLE
 
         if orientation is None:
-            orientation = "south-up"
+            orientation = con.DEFAULT_ORIENTATION
 
         return {
             "format": "png",
@@ -82,16 +96,14 @@ class MoonPhaseRequester:
         return date_request, data
 
     def download_image(self, url: str, filename: str) -> None:
-        img_dir: str = "images"
-
         try:
             response: Response = requestsget(url, timeout=10)
             print("Connection Successful!")
         except RequestsConnectionError:
             print("User is NOT connected to the internet!")
 
-        if not path.exists(img_dir):
-            mkdir(img_dir)
+        if not path.exists(con.IMAGE_PATH):
+            mkdir(con.IMAGE_PATH)
 
-        with open(f"{img_dir}/{filename}", "wb") as picture:
+        with open(f"{con.IMAGE_PATH}/{filename}", "wb") as picture:
             picture.write(response.content)
