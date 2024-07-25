@@ -15,8 +15,8 @@ from customtkinter import (
     filedialog
 )
 from PIL import Image, ImageFile
-from imagegen import MoonPhaseRequester
-from constants import Constants
+from imagegen.imagegen import MoonPhaseRequester
+from constants.constants import Constants
 
 requester = MoonPhaseRequester()
 con = Constants()
@@ -32,7 +32,9 @@ def get_and_download_image() -> None:
         parsed_data = json.loads(parsed_data)
         requester.download_image(
             parsed_data["data"]["imageUrl"], f"{con.DATE}_{style}_{orientation}.jpg")
-        print(f"The image {con.DATE}_{style}_{orientation}.jpg was downloaded!")
+        print(
+            f"The image {con.DATE}_{style}_{orientation}.jpg was downloaded!"
+        )
     else:
         print("The image data was not a dictionary")
 

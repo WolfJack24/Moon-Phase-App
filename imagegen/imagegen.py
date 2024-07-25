@@ -6,7 +6,7 @@ from os import getenv, path, mkdir
 import base64
 from requests import get as requestsget, Response, ConnectionError as RequestsConnectionError
 from dotenv import load_dotenv
-from constants import Constants
+from constants.constants import Constants
 
 con = Constants()
 

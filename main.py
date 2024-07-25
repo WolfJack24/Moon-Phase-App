@@ -1,7 +1,7 @@
 # pylint: disable=import-error, missing-module-docstring, missing-function-docstring
 import subprocess
 from os import path
-from gui import App
+from gui.gui import App
 
 
 def main():
