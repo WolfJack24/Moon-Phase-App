@@ -10,14 +10,12 @@ import constants
 from gui.gui import App
 
 
-
 def app_run() -> None:
-    
     print(f"App ver: {__version__}")
     print(f"GUI ver: {gui.__version__}")
     print(f"ImageGen ver: {imagegen.__version__}")
     print(f"Constants ver: {constants.__version__}")
-    
+
     app = App(size="500x400", title="Moon Phase App")
     app.mainloop()
 
@@ -29,7 +27,7 @@ def app_run() -> None:
 
 
 def server_run() -> None:
-    print("WIP!")
+    print("Not implemented yet, WIP!")
 
 
 def main():
@@ -40,10 +38,10 @@ def main():
             case _:
                 print(
                     "Usage: main.py\n\t"
-                    "app: open the app verison\n\t"
                     "server: open the server version")
     else:
         app_run()
+
 
 if __name__ == "__main__":
     main()
