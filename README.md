@@ -48,7 +48,7 @@ The layout of this project is a Figma file:
 
 ### Versions
 
-App ver: 2.0.1\n
-GUI ver: 2.0.0\n
-ImageGen ver: 2.0.0\n
+App ver: 2.0.1
+GUI ver: 2.0.0
+ImageGen ver: 2.0.0
 Constants ver: 1.0.0
