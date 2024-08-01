@@ -46,9 +46,8 @@ The layout of this project is a Figma file:
 - [ ] Add fully working notifications
 - [ ] Use partial from functools to allow the varibles into funtions
 
-### Versions
-
-App ver: 2.0.1
-GUI ver: 2.0.0
-ImageGen ver: 2.0.0
-Constants ver: 1.0.0
+Versions:
+- App ver: 2.0.1
+- GUI ver: 2.0.0
+- ImageGen ver: 2.0.0
+- Constants ver: 1.0.0
