@@ -7,7 +7,7 @@ from sys import argv
 import gui
 import imagegen
 import constants
-from gui.gui import App
+from gui import App
 
 
 def app_run() -> None:
@@ -16,7 +16,7 @@ def app_run() -> None:
     print(f"ImageGen ver: {imagegen.__version__}")
     print(f"Constants ver: {constants.__version__}")
 
-    app = App(size="500x400", title="Moon Phase App")
+    app = App()
     app.mainloop()
 
     if path.exists("images"):

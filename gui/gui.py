@@ -15,8 +15,8 @@ from customtkinter import (
     filedialog
 )
 from PIL import Image, ImageFile
-from imagegen.imagegen import MoonPhaseRequester
-from constants.constants import Constants
+from imagegen import MoonPhaseRequester
+from constants import Constants
 
 requester = MoonPhaseRequester()
 con = Constants()
@@ -84,7 +84,11 @@ class InfoPanel(CTkToplevel):
 
 
 class App(CTk):
-    def __init__(self, size: str, title: str):
+    width = 500
+    height = 400
+    app_title = "Moon Phase App"
+
+    def __init__(self):
         super().__init__()
 
         def load_image() -> None:
@@ -108,10 +112,10 @@ class App(CTk):
                 self.window_dialog.focus()
 
         self.window_dialog = None
-        self.geometry(size)
+        self.geometry(f"{self.width}x{self.height}")
         self.window_width = self.winfo_width()
         self.window_height = self.winfo_height()
-        self.title(title)
+        self.title(self.app_title)
         self.resizable(False, False)
 
         self.notif_frame = CTkFrame(

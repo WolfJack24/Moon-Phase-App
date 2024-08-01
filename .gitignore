@@ -15,3 +15,6 @@ images
 
 # Ignore HTML folder, until web app is finished
 html
+
+# ignore "custom" markdown creator "md.py"
+md.py

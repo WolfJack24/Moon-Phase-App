@@ -47,7 +47,8 @@ The layout of this project is a Figma file:
 - [ ] Use partial from functools to allow the varibles into funtions
 
 Versions:
+
 - App ver: 2.0.1
-- GUI ver: 2.0.0
+- GUI ver: 2.0.1
 - ImageGen ver: 2.0.0
 - Constants ver: 1.0.0
