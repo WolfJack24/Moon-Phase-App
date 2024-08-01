@@ -1,11 +1,23 @@
 # pylint: disable=import-error, missing-module-docstring, missing-function-docstring
+__version__ = "2.0.1"
+
 import subprocess
 from os import path
 from sys import argv
+import gui
+import imagegen
+import constants
 from gui.gui import App
 
 
+
 def app_run() -> None:
+    
+    print(f"App ver: {__version__}")
+    print(f"GUI ver: {gui.__version__}")
+    print(f"ImageGen ver: {imagegen.__version__}")
+    print(f"Constants ver: {constants.__version__}")
+    
     app = App(size="500x400", title="Moon Phase App")
     app.mainloop()
 
@@ -21,10 +33,8 @@ def server_run() -> None:
 
 
 def main():
-    if len(argv) >= 2:
+    if len(argv) == 2:
         match argv[1]:
-            case "app":
-                app_run()
             case "server":
                 server_run()
             case _:
@@ -33,11 +43,7 @@ def main():
                     "app: open the app verison\n\t"
                     "server: open the server version")
     else:
-        print(
-            "Usage: main.py\n"
-            "    app: open the app verison\n"
-            "    server: open the server version")
-
+        app_run()
 
 if __name__ == "__main__":
     main()
