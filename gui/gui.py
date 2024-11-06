@@ -1,8 +1,8 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 from os import path, getcwd
 import json
-from functools import partial
 from typing import Any
+from threading import Thread
 from customtkinter import (
     CTk,
     CTkFrame,
@@ -37,6 +37,11 @@ def get_and_download_image() -> None:
         )
     else:
         print("The image data was not a dictionary")
+
+
+def download_thread() -> None:
+    gdit = Thread(target=get_and_download_image, name="get_and_download_image")
+    gdit.start()
 
 
 class InfoPanel(CTkToplevel):
@@ -143,5 +148,5 @@ class App(CTk):
         self.load_button.place(x=330, y=265)
 
         self.gen_button = CTkButton(
-            self, text="Gen Image", command=get_and_download_image)
+            self, text="Gen Image", command=download_thread)
         self.gen_button.place(x=330, y=300)

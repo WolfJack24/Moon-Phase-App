@@ -42,13 +42,12 @@ The layout of this project is a Figma file:
 
 ## TODO
 
-- [ ] Make some functions Asynchronous to stop the app from freezing when the `Gen Button` is clicked
 - [ ] Add fully working notifications
 - [ ] Use partial from functools to allow the varibles into funtions
 
 Versions:
 
 - App ver: 2.0.1
-- GUI ver: 2.0.1
+- GUI ver: 2.1.0
 - ImageGen ver: 2.0.0
 - Constants ver: 1.0.0
