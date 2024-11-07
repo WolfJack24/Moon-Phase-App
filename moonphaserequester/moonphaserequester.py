@@ -6,7 +6,7 @@ from os import getenv, path, mkdir
 import base64
 from requests import get as requestsget, Response, ConnectionError as RequestsConnectionError
 from dotenv import load_dotenv
-from constants.constants import Constants
+from constants import Constants
 
 con = Constants()
 
@@ -27,7 +27,7 @@ class MoonPhaseRequester:
         self.style: str | None = None
         self.orientation: str | None = None
 
-    def get_moon(self) -> Tuple[str, str]:
+    def get_moon_info(self) -> Tuple[str, str]:
         if self.style is None:
             self.style = con.DEFAULT_STYLE
         if self.orientation is None:
@@ -74,7 +74,7 @@ class MoonPhaseRequester:
             }
         }
 
-    def get_image(self) -> Tuple[str, str]:
+    def get_image_data(self) -> Tuple[str, str]:
         if self.payload is None:
             payload_json: str = json.dumps(self.payload_config(
                 "2024-07-18", "default", "south-up"))

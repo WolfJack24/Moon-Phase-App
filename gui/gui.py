@@ -15,7 +15,7 @@ from customtkinter import (
     filedialog
 )
 from PIL import Image, ImageFile
-from imagegen import MoonPhaseRequester
+from moonphaserequester import MoonPhaseRequester
 from constants import Constants
 
 requester = MoonPhaseRequester()
@@ -23,10 +23,10 @@ con = Constants()
 
 
 def get_and_download_image() -> None:
-    con.DATE, file_data = requester.get_image()
+    con.DATE, file_data = requester.get_image_data()
     image_json: str = json.dumps(file_data)
     parsed_data: Any = json.loads(image_json)
-    (style, orientation) = requester.get_moon()
+    style, orientation = requester.get_moon_info()
 
     if isinstance(parsed_data, str):
         parsed_data = json.loads(parsed_data)
@@ -118,18 +118,8 @@ class App(CTk):
 
         self.window_dialog = None
         self.geometry(f"{self.width}x{self.height}")
-        self.window_width = self.winfo_width()
-        self.window_height = self.winfo_height()
         self.title(self.app_title)
         self.resizable(False, False)
-
-        self.notif_frame = CTkFrame(
-            self, width=221, height=29, corner_radius=3, fg_color="#303030")
-        self.notif_frame.place(x=29, y=29)
-
-        self.notif_text = CTkLabel(
-            self.notif_frame, width=72, height=12, text="Notifications Not Working... Yet!")
-        self.notif_text.place(x=10, y=7)
 
         self.image_frame = CTkFrame(
             self, width=221, height=277, corner_radius=5, fg_color="#303030")

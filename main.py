@@ -5,7 +5,7 @@ import subprocess
 from os import path
 from sys import argv
 import gui
-import imagegen
+import moonphaserequester
 import constants
 from gui import App
 
@@ -13,7 +13,7 @@ from gui import App
 def app_run() -> None:
     print(f"App ver: {__version__}")
     print(f"GUI ver: {gui.__version__}")
-    print(f"ImageGen ver: {imagegen.__version__}")
+    print(f"ImageGen ver: {moonphaserequester.__version__}")
     print(f"Constants ver: {constants.__version__}")
 
     app = App()
