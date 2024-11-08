@@ -168,6 +168,7 @@ class App(CTk):
         super().__init__()
 
         def load_image_from_filedialog() -> None:
+            # Deprecated
             if path.exists(con.IMAGE_PATH):
                 filename = filedialog.askopenfile(
                     defaultextension="jpg",
