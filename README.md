@@ -40,13 +40,9 @@ Warning: Html files are not included, YET!
 The layout of this project is a Figma file:
 [Moon Phase App Layout](https://www.figma.com/design/45IkxmpJ02QLcfx7dg3Ve6/Moon-Phase-App?node-id=0-1&t=NAOEOGGjnye4eSVL-1)
 
-## TODO
-
-- [ ] Use partial from functools to allow the varibles into funtions
-
 Versions:
 
 - App ver: 2.0.1
-- GUI ver: 2.2.1
-- ImageGen ver: 2.0.2
+- GUI ver: 3.0.0
+- Moon Phase Requester ver: 2.0.2
 - Constants ver: 1.0.1

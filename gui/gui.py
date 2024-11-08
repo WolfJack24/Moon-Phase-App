@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 from os import path, getcwd
 import json
-from typing import Any
+from typing import Any, Optional
 from threading import Thread
 from functools import partial
 from customtkinter import (
@@ -25,32 +25,64 @@ con = Constants()
 VALUES: list[str] = ["None"]
 
 
-def get_and_download_image(cmb: CTkComboBox) -> None:
+def load_image(gen_op: bool, image_base: Optional[list[str]], recent_cmb: CTkComboBox, moon_image: CTkLabel, _string: Optional[str]) -> None:
+    if not gen_op:
+        images: str = recent_cmb.get()
+
+        if path.exists(con.IMAGE_PATH):
+            image: ImageFile.ImageFile = Image.open(
+                str(f"{getcwd()}/{con.IMAGE_PATH}/{images}.jpg"))
+            moon_image.configure(image=CTkImage(
+                image, image, (200, 260)))
+            image.close()
+    else:
+        if not image_base is None:
+            if path.exists(con.IMAGE_PATH):
+                if not len(image_base) == 3:
+                    print("the var image_base has more than 3 items")
+                image: ImageFile.ImageFile = Image.open(
+                    str(f"{getcwd()}/{con.IMAGE_PATH}/{image_base[0]}_{image_base[1]}_{image_base[2]}.jpg"))
+                moon_image.configure(image=CTkImage(
+                    image, image, (200, 260)))
+                image.close()
+
+
+def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> None:
     con.DATE, file_data = requester.get_image_data()
     image_json: str = json.dumps(file_data)
     parsed_data: Any = json.loads(image_json)
     style, orientation = requester.get_moon_info()
+    jpg_name: str = f"{con.DATE}_{style}_{orientation}"
 
     if isinstance(parsed_data, str):
         parsed_data = json.loads(parsed_data)
         requester.download_image(
-            parsed_data["data"]["imageUrl"], f"{con.DATE}_{style}_{orientation}.jpg")
+            parsed_data["data"]["imageUrl"], f"{jpg_name}.jpg")
         print(
-            f"The image {con.DATE}_{style}_{orientation}"
-            ".jpg was downloaded!"
+            f"The image {jpg_name}.jpg was downloaded!"
         )
         if "None" in VALUES:
             VALUES.pop(0)
-        VALUES.append(f"{con.DATE}_{style}_{orientation}")
-        cmb.configure(values=VALUES)
+        VALUES.append(f"{jpg_name}")
+        recent_cmb.configure(values=VALUES)
+        recent_cmb.set(jpg_name)
+        load_image(True, [con.DATE, style, orientation],
+                   recent_cmb, moon_image, None)
     else:
         print("The image data was not a dictionary")
 
 
-def download_thread(cmb: CTkComboBox) -> None:
-    gdit = Thread(target=get_and_download_image, args=(cmb,),
+def download_thread(cmb: CTkComboBox, moon_image: CTkLabel) -> None:
+    gdit = Thread(target=get_and_download_image, args=(cmb, moon_image),
                   name="get_and_download_image")
     gdit.start()
+
+
+# class DepPanel(CTkToplevel):
+#     def __init__(self):
+#         super().__init__()
+
+#         # TODO
 
 
 class InfoPanel(CTkToplevel):
@@ -119,16 +151,6 @@ class App(CTk):
             else:
                 print("No moon_image's were generated!")
 
-        def load_image(_string: str) -> None:
-            images = self.recent.get()
-
-            if path.exists(con.IMAGE_PATH):
-                image: ImageFile.ImageFile = Image.open(
-                    str(f"{getcwd()}/{con.IMAGE_PATH}/{images}.jpg"))
-                self.moon_image.configure(image=CTkImage(
-                    image, image, (200, 260)))
-                image.close()
-
         def open_infopanel() -> None:
             if self.window_dialog is None or not self.window_dialog.winfo_exists():
                 self.window_dialog = InfoPanel()
@@ -156,8 +178,12 @@ class App(CTk):
             self.images_frame, width=95, height=16, text="Recent Images")
         self.recent_label.place(x=4, y=5)
 
-        self.recent = CTkComboBox(
-            self.images_frame, width=153, height=24, values=VALUES, command=load_image,
+        # Please ignore this complicated mess of code, thanks in regard 👍
+        self.recent = CTkComboBox(self.images_frame)
+        partial_load_image = partial(
+            load_image, False, None, self.recent, self.moon_image)
+        self.recent.configure(
+            width=153, height=24, values=VALUES, command=partial_load_image,
             button_color="#1F6AA5"
         )
         self.recent.set("None")
@@ -165,13 +191,14 @@ class App(CTk):
 
         self.info_dialog = CTkButton(
             self, text="Set Info", command=open_infopanel)
-        self.info_dialog.place(x=330, y=187)
+        self.info_dialog.place(x=330, y=222)  # (x=330, y=187)
 
-        self.load_button = CTkButton(
-            self, text="Load Image", command=load_image_from_filedialog)
-        self.load_button.place(x=330, y=222)
+        # self.load_button = CTkButton(
+        #     self, text="Load Image", command=load_image_from_filedialog)
+        # self.load_button.place(x=330, y=222)
 
-        partial_download_thread = partial(download_thread, self.recent)
+        partial_download_thread = partial(
+            download_thread, self.recent, self.moon_image)
         self.gen_button = CTkButton(
             self, text="Gen Image", command=partial_download_thread)
         self.gen_button.place(x=330, y=257)
