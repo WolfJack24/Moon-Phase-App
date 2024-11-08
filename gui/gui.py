@@ -13,6 +13,8 @@ from customtkinter import (
     CTkToplevel,
     CTkEntry,
     CTkComboBox,
+    CTkSwitch,
+    StringVar,
     filedialog
 )
 from PIL import Image, ImageFile
@@ -78,11 +80,39 @@ def download_thread(cmb: CTkComboBox, moon_image: CTkLabel) -> None:
     gdit.start()
 
 
-# class DepPanel(CTkToplevel):
-#     def __init__(self):
-#         super().__init__()
+class DepPanel(CTkToplevel):
+    def __init__(self, dep_items: dict[str, Any], moving_items: dict[str, Any]):
+        super().__init__()
+        self.withdraw()
 
-#         # TODO
+        self.load_filedialog_var = StringVar(value="off")
+        self._dep_items = dep_items
+        self._moving_items = moving_items
+
+        self.geometry("200x125")
+        self.title("Dep Items")
+        self.resizable(False, False)
+
+        def load_dep_item(dep_item: str, item_to_be_moved: Optional[str]) -> None:
+            match dep_item:
+                case "Load_Button":
+                    load_button = self._dep_items["load_button"]
+                    info_dialog = self._moving_items[item_to_be_moved if item_to_be_moved is not None else "None"]
+
+                    if self.load_filedialog_var.get() == "on":
+                        info_dialog.place(x=330, y=216)
+                        load_button.configure(state="normal")
+                    else:
+                        info_dialog.place(x=330, y=251)
+                        load_button.configure(state="hidden")
+
+        partial_load_dep_item = partial(
+            load_dep_item, "Load_Button", "info_dialog")
+        self.load_filedialog = CTkSwitch(
+            self, width=22, height=12, text="Load from filedialog",
+            onvalue="on", offvalue="off", variable=self.load_filedialog_var, command=partial_load_dep_item
+        )
+        self.load_filedialog.place(x=11, y=16)
 
 
 class InfoPanel(CTkToplevel):
@@ -149,15 +179,23 @@ class App(CTk):
                     image, image, (200, 260)))
                 image.close()
             else:
-                print("No moon_image's were generated!")
+                print("No image's were generated!")
 
         def open_infopanel() -> None:
-            if self.window_dialog is None or not self.window_dialog.winfo_exists():
-                self.window_dialog = InfoPanel()
+            if self.info_panel is None or not self.info_panel.winfo_exists():
+                self.info_panel = InfoPanel()
             else:
-                self.window_dialog.focus()
+                self.info_panel.focus()
 
-        self.window_dialog = None
+        def open_deppanel() -> None:
+            if self.dep_panel is None or not self.dep_panel.winfo_exists():
+                self.dep_panel = DepPanel(dep_items, moving_items)
+                self.dep_panel.deiconify()
+            else:
+                self.dep_panel.focus()
+
+        self.info_panel = None
+        self.dep_panel = None
         self.geometry(f"{self.width}x{self.height}")
         self.title(self.app_title)
         self.resizable(False, False)
@@ -189,16 +227,26 @@ class App(CTk):
         self.recent.set("None")
         self.recent.place(x=17, y=28)
 
+        # Deprecated
+        self.load_button = CTkButton(
+            self, text="Load Image", command=load_image_from_filedialog, state="hidden")
+        self.load_button.place(x=330, y=251)
+
         self.info_dialog = CTkButton(
             self, text="Set Info", command=open_infopanel)
-        self.info_dialog.place(x=330, y=222)  # (x=330, y=187)
-
-        # self.load_button = CTkButton(
-        #     self, text="Load Image", command=load_image_from_filedialog)
-        # self.load_button.place(x=330, y=222)
+        self.info_dialog.place(x=330, y=251)  # origanel (x=330, y=216)
 
         partial_download_thread = partial(
             download_thread, self.recent, self.moon_image)
         self.gen_button = CTkButton(
             self, text="Gen Image", command=partial_download_thread)
-        self.gen_button.place(x=330, y=257)
+        self.gen_button.place(x=330, y=286)
+
+        dep_items: dict[str, Any] = {
+            "load_button": self.load_button
+        }
+        moving_items: dict[str, Any] = {
+            "None": None,
+            "info_dialog": self.info_dialog
+        }
+        self.bind_all("<F1>", lambda event: open_deppanel())
