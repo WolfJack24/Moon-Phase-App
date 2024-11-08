@@ -18,3 +18,6 @@ html
 
 # ignore "custom" markdown creator "md.py"
 md.py
+
+# ignore the pylint checker
+*.bat
