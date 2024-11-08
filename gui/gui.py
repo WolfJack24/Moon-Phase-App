@@ -83,7 +83,6 @@ def download_thread(cmb: CTkComboBox, moon_image: CTkLabel) -> None:
 class DepPanel(CTkToplevel):
     def __init__(self, dep_items: dict[str, Any], moving_items: dict[str, Any]):
         super().__init__()
-        self.withdraw()
 
         self.load_filedialog_var = StringVar(value="off")
         self._dep_items = dep_items
@@ -191,7 +190,6 @@ class App(CTk):
         def open_deppanel() -> None:
             if self.dep_panel is None or not self.dep_panel.winfo_exists():
                 self.dep_panel = DepPanel(dep_items, moving_items)
-                self.dep_panel.deiconify()
             else:
                 self.dep_panel.focus()
 

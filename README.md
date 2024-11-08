@@ -45,6 +45,6 @@ Deprecated Items can be accessed by presing **F1**
 Versions:
 
 - App ver: 2.0.1
-- GUI ver: 3.1.0
+- GUI ver: 3.1.1
 - Moon Phase Requester ver: 2.0.2
 - Constants ver: 1.0.1
