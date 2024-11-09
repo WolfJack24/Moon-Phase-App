@@ -34,7 +34,7 @@ py .\main.py
 py .\main.py server
 ```
 
-Warning: weh version is no where close to done
+Warning: web version is no where close to done
 
 ### Design
 
