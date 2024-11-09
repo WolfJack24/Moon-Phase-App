@@ -34,7 +34,7 @@ py .\main.py
 py .\main.py server
 ```
 
-Warning: Html files are not included, YET!
+Warning: weh version is no where close to done
 
 ### Design
 
