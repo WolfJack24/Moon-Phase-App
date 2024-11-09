@@ -5,7 +5,7 @@ __pycache__
 .venv
 
 # Ignore the images folder
-.\images
+/images
 
 # Ignore the .env file
 .env
