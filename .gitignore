@@ -14,7 +14,7 @@ __pycache__
 .vscode
 
 # Ignore HTML folder, until web app is finished
-html
+website
 
 # ignore "custom" markdown creator "md.py"
 md.py
