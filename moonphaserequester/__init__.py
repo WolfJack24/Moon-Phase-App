@@ -6,4 +6,4 @@ from .moonphaserequester import MoonPhaseRequester
 
 __author__ = "@WolfJack24"
 __all__ = ["MoonPhaseRequester"]
-__version__ = "2.0.2"
+__version__ = "3.0.0"

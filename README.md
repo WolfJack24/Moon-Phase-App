@@ -2,7 +2,7 @@
 
 A "simple" app to request a specific moon phase by date and other parameters to show how it looks
 
-![Demo of the Moon Phase App](assets/images/demo.jpg "Demo")
+![Demo of the Moon Phase App](assets/images/demo_200x260.jpg "Demo")
 
 Beware onclose of the app it deletes the folder with the images in it!
 
@@ -42,9 +42,13 @@ The layout of this project is a Figma file:
 
 Deprecated Items can be accessed by presing **F1**
 
+TODO:
+
+-[ ] Images don't scale when `view_type` is updated
+
 Versions:
 
 - App ver: 2.0.1
-- GUI ver: 3.1.1
-- Moon Phase Requester ver: 2.0.2
-- Constants ver: 1.0.1
+- GUI ver: 3.2.0
+- Moon Phase Requester ver: 3.0.0
+- Constants ver: 1.3.0
