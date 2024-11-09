@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="{{ url_for("static",
+		filename="style.css") }}" />
+		<title>Moon Phase App</title>
+	</head>
+	<body>
+		<div id="main-window" class="main-window">
+			<div class="notif-area">
+				<p>Notifications Not Working... Yet!</p>
+			</div>
+
+			<div class="image-area">
+				<img />
+			</div>
+
+			<div id="buttons" class="buttons">
+				<button id="buttoninfo" class="button info" type="submit">
+					Set Info
+				</button>
+				<button id="buttonload" class="button load" type="submit">
+					Load Image
+				</button>
+				<button id="buttongen" class="button gen" type="submit">
+					Gen Image
+				</button>
+			</div>
+		</div>
+
+		<script
+			type="text/javascript"
+			src="{{ url_for('static', filename='index.js') }}"></script>
+	</body>
+</html>

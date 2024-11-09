@@ -8,6 +8,7 @@ import gui
 import moonphaserequester
 import constants
 from gui import App
+from website import create_webapp
 
 
 def app_run() -> None:
@@ -27,10 +28,8 @@ def app_run() -> None:
 
 
 def server_run() -> None:
-    print("Not implemented yet, WIP!")
-    # ? IDEA: just a theory, but this app was written in Python and the GUI was CustomTkinter
-    # ? so what if i use Flask to host there server and i can then use DJango for the html
-    # ? but idk if this concrete, so i am gonna keep brainstorming, wish me luck
+    webapp = create_webapp()
+    webapp.run(debug=False)
 
 
 def main():
