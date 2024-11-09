@@ -2,7 +2,8 @@
 
 A "simple" app to request a specific moon phase by date and other parameters to show how it looks
 
-![Demo of the Moon Phase App](assets/images/demo_200x260.jpg "Demo")
+![Demo 200x260](assets/images/demo_200x260.png "Demo_200x260")
+![Demo 260x160](assets/images/demo_260x160.png "Demo_260x160")
 
 Beware onclose of the app it deletes the folder with the images in it!
 
@@ -41,10 +42,6 @@ The layout of this project is a Figma file:
 [Moon Phase App Layout](https://www.figma.com/design/45IkxmpJ02QLcfx7dg3Ve6/Moon-Phase-App?node-id=0-1&t=NAOEOGGjnye4eSVL-1)
 
 Deprecated Items can be accessed by presing **F1**
-
-TODO:
-
--[ ] Images don't scale when `view_type` is updated
 
 Versions:
 

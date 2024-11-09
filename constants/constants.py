@@ -6,12 +6,9 @@ type T = Tuple[str, str, str, str, str, str, float, float, str, str, str]
 
 
 class Constants():
-    # Shared Info
-    date: str | None = None
-    format: str | None = None
-
     # Image related vars
     IMAGE_PATH: str = "images"
+    IMAGE_SIZES: list[Tuple[int, int]] = [(200, 260), (260, 160)]
 
     # Format
     DEFAULT_FORMAT: str = "png"
@@ -45,3 +42,8 @@ class Constants():
         DEFAULT_TYPE,
         DEFAULT_ORIENTATION
     )
+
+    # Shared Info
+    date: str | None = None
+    format_type: str | None = None
+    view_type: str = DEFAULT_TYPE

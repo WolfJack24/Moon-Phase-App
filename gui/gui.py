@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 from os import path, getcwd
 import json
+from turtle import width
 from typing import Any, Optional
 from threading import Thread
 from functools import partial
@@ -35,8 +36,6 @@ def load_image(
     moon_image: CTkLabel,
     _string: Optional[str]
 ) -> None:
-
-    # New size 260x160
     if format is not None:
         if not gen_op:
             images: str = recent_cmb.get()
@@ -44,8 +43,12 @@ def load_image(
             if path.exists(con.IMAGE_PATH):
                 image: ImageFile.ImageFile = Image.open(
                     str(f"{getcwd()}/{con.IMAGE_PATH}/{images}.{format}"))
-                moon_image.configure(image=CTkImage(
-                    image, image, (200, 260)))
+                if con.view_type == "portrait-simple":
+                    moon_image.configure(image=CTkImage(
+                        image, image, con.IMAGE_SIZES[0]))
+                else:
+                    moon_image.configure(image=CTkImage(
+                        image, image, con.IMAGE_SIZES[1]))
                 image.close()
         else:
             if not image_base is None:
@@ -54,8 +57,12 @@ def load_image(
                         print("the var image_base has more than 3 items")
                     image: ImageFile.ImageFile = Image.open(
                         str(f"{getcwd()}/{con.IMAGE_PATH}/{image_base[0]}_{image_base[1]}_{image_base[2]}.{format}"))
-                    moon_image.configure(image=CTkImage(
-                        image, image, (200, 260)))
+                    if con.view_type == "portrait-simple":
+                        moon_image.configure(image=CTkImage(
+                            image, image, con.IMAGE_SIZES[0]))
+                    else:
+                        moon_image.configure(image=CTkImage(
+                            image, image, con.IMAGE_SIZES[1]))
                     image.close()
 
 
@@ -63,7 +70,7 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
     con.date, file_data = requester.get_image_data()
     image_json: str = json.dumps(file_data)
     parsed_data: Any = json.loads(image_json)
-    con.format, style, orientation = requester.get_moon_info()
+    con.format_type, style, orientation = requester.get_moon_info()
     image_name: str = f"{con.date}_{style}_{orientation}"
 
     if isinstance(parsed_data, str):
@@ -72,9 +79,9 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
             print(json.dumps(parsed_data, indent=4))
         elif "data" in parsed_data:
             requester.download_image(
-                parsed_data["data"]["imageUrl"], f"{image_name}.{con.format}")
+                parsed_data["data"]["imageUrl"], f"{image_name}.{con.format_type}")
             print(
-                f"The image {image_name}.{con.format} was downloaded!"
+                f"The image {image_name}.{con.format_type} was downloaded!"
             )
         else:
             print("There was neither a error or data when downloading the image")
@@ -86,7 +93,7 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
         recent_cmb.configure(values=VALUES)
         recent_cmb.set(image_name)
         load_image(True, [con.date, style, orientation],
-                   con.format, recent_cmb, moon_image, None)
+                   con.format_type, recent_cmb, moon_image, None)
     else:
         print("The image data was not a dictionary")
 
@@ -132,7 +139,7 @@ class DepPanel(CTkToplevel):
 
 
 class InfoPanel(CTkToplevel):
-    def __init__(self):
+    def __init__(self, image_frame: CTkFrame, image: CTkLabel):
         super().__init__()
 
         self.geometry("340x311")
@@ -142,9 +149,10 @@ class InfoPanel(CTkToplevel):
         self.format_label = CTkLabel(self, width=46, height=12, text="Format:")
         self.format_label.place(x=22, y=21)
 
-        self.format = CTkComboBox(self, corner_radius=5, values=["PNG", "SVG"])
-        self.format.set("PNG")
-        self.format.place(x=22, y=38)
+        self.format_type = CTkComboBox(
+            self, corner_radius=5, values=["PNG", "SVG"])
+        self.format_type.set("PNG")
+        self.format_type.place(x=22, y=38)
 
         self.style_label = CTkLabel(self, width=34, height=12, text="Style:")
         self.style_label.place(x=22, y=71)
@@ -202,8 +210,9 @@ class InfoPanel(CTkToplevel):
         self.orientation.set("South Up")
         self.orientation.place(x=179, y=187)
 
+        partial_update = partial(self.update, image_frame, image)
         self.update_button = CTkButton(
-            self, text="Update", command=self.update)
+            self, text="Update", command=partial_update)
         self.update_button.place(x=100, y=262)
 
     def check_date(self, date: str) -> str:
@@ -215,8 +224,8 @@ class InfoPanel(CTkToplevel):
 
         return date
 
-    def update(self) -> None:
-        format: str = self.format.get().lower()
+    def update(self, image_frame: CTkFrame, image: CTkLabel) -> None:
+        format_type: str = self.format_type.get().lower()
         style: str = self.style.get().lower()
         background_style: str = self.background_style.get().lower()
         background_color: str = self.background_color.get().lower()
@@ -230,8 +239,22 @@ class InfoPanel(CTkToplevel):
         view_type: str = self.view_type.get().lower().replace(" ", "-")
         orientation: str = self.orientation.get().lower().replace(" ", "-")
 
+        con.view_type = view_type
+
+        match con.view_type:
+            case "portrait-simple":
+                image_frame.configure(width=221, height=277)
+                image_frame.place(x=29, y=37)
+                image.configure(width=200, height=260)
+                image.place(x=10, y=8)
+            case "landscape-simple":
+                image_frame.configure(width=287, height=182)
+                image_frame.place(x=25, y=132)
+                image.configure(width=260, height=160)
+                image.place(x=13, y=11)
+
         requester.update_payload(
-            format,
+            format_type,
             style,
             background_style,
             background_color,
@@ -272,7 +295,8 @@ class App(CTk):
 
         def open_infopanel() -> None:
             if self.info_panel is None or not self.info_panel.winfo_exists():
-                self.info_panel = InfoPanel()
+                self.info_panel = InfoPanel(
+                    self.moon_image_frame, self.moon_image)
             else:
                 self.info_panel.focus()
 
@@ -307,7 +331,7 @@ class App(CTk):
         # Please ignore this complicated mess of code, thanks in regard 👍
         self.recent = CTkComboBox(self.images_frame)
         partial_load_image = partial(
-            load_image, False, None, con.format, self.recent, self.moon_image)
+            load_image, False, None, con.format_type, self.recent, self.moon_image)
         self.recent.configure(
             width=153, height=24, values=VALUES, command=partial_load_image,
             button_color="#1F6AA5"

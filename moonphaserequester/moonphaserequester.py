@@ -28,7 +28,7 @@ class MoonPhaseRequester:
     def __init__(self) -> None:
         self.payload: Dict[str, Any] | None = None
         # Format
-        self.format: S = None
+        self.format_type: S = None
         # Style
         self.moon_style: S = None
         self.background_style: S = None
@@ -43,17 +43,17 @@ class MoonPhaseRequester:
         self.orientation: S = None
 
     def get_moon_info(self) -> Tuple[str, str, str]:
-        if self.format is None:
-            self.format = con.DEFAULT_FORMAT
+        if self.format_type is None:
+            self.format_type = con.DEFAULT_FORMAT
         if self.moon_style is None:
             self.moon_style = con.DEFAULT_MOONSTYLE
         if self.orientation is None:
             self.orientation = con.DEFAULT_ORIENTATION
-        return self.format, self.moon_style, self.orientation
+        return self.format_type, self.moon_style, self.orientation
 
     def update_payload(
         self,
-        format: S,
+        format_type: S,
         style: S,
         background_style: S,
         background_color: S,
@@ -65,7 +65,7 @@ class MoonPhaseRequester:
         view_type: S,
         orientation: S
     ) -> None:
-        self.format = format if format != "svg" else "png"
+        self.format_type = format_type if format_type != "svg" else "png"
         self.moon_style = style
         self.background_style = background_style
         self.background_color = background_color
@@ -76,7 +76,7 @@ class MoonPhaseRequester:
         self.view_type = view_type
         self.orientation = orientation
         self.payload = self.payload_config(
-            format,
+            format_type,
             style,
             background_style,
             background_color,
@@ -91,7 +91,7 @@ class MoonPhaseRequester:
 
     def payload_config(
         self,
-        format: S,
+        format_type: S,
         moon_style: S,
         background_style: S,
         background_color: S,
@@ -103,7 +103,7 @@ class MoonPhaseRequester:
         view_type: S,
         orientation: S
     ) -> Dict[str, Any]:
-        format = con.DEFAULT_FORMAT if format is None or format == "svg" else format
+        format_type = con.DEFAULT_FORMAT if format_type is None or format_type == "svg" else format_type
         moon_style = con.DEFAULT_MOONSTYLE if moon_style is None else moon_style
         background_style = con.DEFAULT_BACKGROUND_STYLE if background_style is None else background_style
         background_color = con.DEFAULT_BACKGROUND_COLOR if background_color == "" else background_color
@@ -116,7 +116,7 @@ class MoonPhaseRequester:
         orientation = con.DEFAULT_ORIENTATION if orientation is None else orientation
 
         payload: dict[str, Any] = {
-            "format": format,
+            "format": format_type,
             "style": {
                 "moonStyle": moon_style,
                 "backgroundStyle": background_style,
