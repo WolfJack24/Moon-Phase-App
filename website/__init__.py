@@ -7,6 +7,8 @@ from .views import views
 def create_webapp() -> Flask:
     webapp = Flask(__name__, "/website/static")
 
+    webapp.config['SECRET_KEY'] = "pythonisfun"  # 👍
+
     webapp.register_blueprint(views, url_prefix="/")
 
     return webapp

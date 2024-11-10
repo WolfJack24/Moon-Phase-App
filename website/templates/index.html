@@ -8,26 +8,70 @@
 		<title>Moon Phase App</title>
 	</head>
 	<body>
-		<div id="main-window" class="main-window">
-			<div class="notif-area">
-				<p>Notifications Not Working... Yet!</p>
+		<div class="window">
+			<div id="image-frame">
+				<img id="moon-image" />
 			</div>
 
-			<div class="image-area">
-				<img />
+			<div class="recent-images-frame">
+				<label for="recent-cmb" class="recent-label">Recent Images</label>
+				<select id="recent-cmb"></select>
 			</div>
 
-			<div id="buttons" class="buttons">
-				<button id="buttoninfo" class="button info" type="submit">
-					Set Info
-				</button>
-				<button id="buttonload" class="button load" type="submit">
-					Load Image
-				</button>
-				<button id="buttongen" class="button gen" type="submit">
-					Gen Image
-				</button>
-			</div>
+			<button type="submit" class="gen-button">Gen Image</button>
+
+			<form method="POST" class="info-form">
+				<label class="format-label" for="format-input"> Format: </label>
+				<select id="format-input">
+					<option value="png">PNG</option>
+					<option value="svg">SVG</option>
+				</select>
+
+				<label class="style-label" for="moon-style-input"> Style: </label>
+				<select id="moon-style-input">
+					<option value="default">Default</option>
+					<option value="sketch">Sketch</option>
+					<option value="shaded">Shaded</option>
+				</select>
+
+				<select id="background-style">
+					<option value="stars">Stars</option>
+					<option value="solid">Solid</option>
+				</select>
+
+				<input
+					type="text"
+					id="background-color-input"
+					placeholder="Background Color" />
+
+				<input
+					type="text"
+					id="heading-color-input"
+					placeholder="Heading Color" />
+
+				<input type="text" id="text-color-input" placeholder="Text Color" />
+
+				<label class="observer-label" for="latitude-input"> Observer: </label>
+				<input type="text" id="latitude-input" placeholder="Latitude" />
+
+				<input type="text" id="longitude-input" placeholder="Longitude" />
+
+				<!-- I would use a date input but i feel better with this -->
+				<input type="text" id="date-input" placeholder="Date: YYYY-MM-DD" />
+
+				<label class="view-label" for="view-type-input"> View: </label>
+				<select id="view-type-input">
+					<option value="portrait-simple">Portrait Simple</option>
+					<option value="landscape-simple">Landscape Simple</option>
+				</select>
+
+				<select id="orientation-input">
+					<option value="south-up">South Up</option>
+					<option value="north-up">North Up</option>
+				</select>
+
+				<button type="submit" id="update-button">Update</button>
+			</form>
 		</div>
 
 		<script

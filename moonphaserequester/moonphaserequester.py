@@ -10,8 +10,8 @@ from constants import Constants
 
 con = Constants()
 
-type S = str | None
-type F = float | None
+S = str | None
+F = float | None
 
 load_dotenv()
 APP_ID: Final[S] = getenv("APP_ID")
@@ -22,6 +22,26 @@ AUTH_STRING: str = base64.b64encode(USER_PASS.encode()).decode()
 
 CONN: HTTPSConnection = HTTPSConnection(
     "api.astronomyapi.com")
+
+
+def create_payload(**kwargs):
+    return {
+        "format": kwargs.get("format_type"),
+        "style": {"moonStyle": kwargs.get("moon_style")},
+        "backgroundStyle": kwargs.get("background_style"),
+        "backgroundColor": kwargs.get("background_color"),
+        "headingColor": kwargs.get("heading_color"),
+        "textColor": kwargs.get("text_color"),
+        "observer": {
+            "latitude": kwargs.get("latitude"),
+            "longitude": kwargs.get("longitude"),
+            "date": kwargs.get("date")
+        },
+        "view": {
+            "type": kwargs.get("view_type"),
+            "orientation": kwargs.get("orientation")
+        }
+    }
 
 
 class MoonPhaseRequester:
@@ -51,42 +71,33 @@ class MoonPhaseRequester:
             self.orientation = con.DEFAULT_ORIENTATION
         return self.format_type, self.moon_style, self.orientation
 
-    def update_payload(
-        self,
-        format_type: S,
-        style: S,
-        background_style: S,
-        background_color: S,
-        heading_color: S,
-        text_color: S,
-        latitude: F,
-        longitude: F,
-        date: S,
-        view_type: S,
-        orientation: S
-    ) -> None:
-        self.format_type = format_type if format_type != "svg" else "png"
-        self.moon_style = style
-        self.background_style = background_style
-        self.background_color = background_color
-        self.heading_color = heading_color
-        self.text_color = text_color
-        self.latitude = latitude
-        self.longitude = longitude
-        self.view_type = view_type
-        self.orientation = orientation
+    # TODO: use Byte Array! Gonna be honest **kwargs confuses me :pain:
+    def update_payload(self, **kwargs) -> None:
+        self.format_type = (kwargs.get("format_type")
+                            if kwargs.get("format_type") != "svg"
+                            else "png")
+        self.moon_style = kwargs.get("moon_style")
+        self.background_style = kwargs.get("background_style")
+        self.background_color = kwargs.get("background_color")
+        self.heading_color = kwargs.get("heading_color")
+        self.text_color = kwargs.get("text_color")
+        self.latitude = kwargs.get("latitude")
+        self.longitude = kwargs.get("longitude")
+        self.view_type = kwargs.get("view_type")
+        self.orientation = kwargs.get("orientation")
+
         self.payload = self.payload_config(
-            format_type,
-            style,
-            background_style,
-            background_color,
-            heading_color,
-            text_color,
-            latitude,
-            longitude,
-            date,
-            view_type,
-            orientation
+            kwargs.get("format_type"),
+            kwargs.get("moon_style"),
+            kwargs.get("background_style"),
+            kwargs.get("background_color"),
+            kwargs.get("heading_color"),
+            kwargs.get("text_color"),
+            kwargs.get("latitude"),
+            kwargs.get("longitude"),
+            kwargs.get("date"),
+            kwargs.get("view_type"),
+            kwargs.get("orientation")
         )
 
     def payload_config(
@@ -103,10 +114,16 @@ class MoonPhaseRequester:
         view_type: S,
         orientation: S
     ) -> Dict[str, Any]:
-        format_type = con.DEFAULT_FORMAT if format_type is None or format_type == "svg" else format_type
+        format_type = (con.DEFAULT_FORMAT
+                       if format_type is None or format_type == "svg"
+                       else format_type)
         moon_style = con.DEFAULT_MOONSTYLE if moon_style is None else moon_style
-        background_style = con.DEFAULT_BACKGROUND_STYLE if background_style is None else background_style
-        background_color = con.DEFAULT_BACKGROUND_COLOR if background_color == "" else background_color
+        background_style = (con.DEFAULT_BACKGROUND_STYLE
+                            if background_style is None
+                            else background_style)
+        background_color = (con.DEFAULT_BACKGROUND_COLOR
+                            if background_color == ""
+                            else background_color)
         heading_color = con.DEFAULT_HEADING_COLOR if heading_color == "" else heading_color
         text_color = con.DEFAULT_TEXT_COLOR if text_color == "" else text_color
         latitude = con.DEFAULT_LATITUDE if latitude == "" else latitude
@@ -139,7 +156,7 @@ class MoonPhaseRequester:
 
     def get_image_data(self) -> Tuple[str, str]:
         if self.payload is None:
-            payload_json: str = json.dumps(self.payload_config(*con.DEFAULTS))
+            payload_json: str = json.dumps(self.payload_config(**con.DEFAULTS))
         else:
             payload_json: str = json.dumps(self.payload)
 

@@ -1,7 +1,6 @@
 # pylint: disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, global-statement
 from os import path, getcwd
 import json
-from turtle import width
 from typing import Any, Optional
 from threading import Thread
 from functools import partial
@@ -31,18 +30,18 @@ VALUES: list[str] = ["None"]
 def load_image(
     gen_op: bool,
     image_base: Optional[list[str]],
-    format: str | None,
+    format_type: str | None,
     recent_cmb: CTkComboBox,
     moon_image: CTkLabel,
     _string: Optional[str]
 ) -> None:
-    if format is not None:
+    if format_type is not None:
         if not gen_op:
             images: str = recent_cmb.get()
 
             if path.exists(con.IMAGE_PATH):
                 image: ImageFile.ImageFile = Image.open(
-                    str(f"{getcwd()}/{con.IMAGE_PATH}/{images}.{format}"))
+                    str(f"{getcwd()}/{con.IMAGE_PATH}/{images}.{format_type}"))
                 if con.view_type == "portrait-simple":
                     moon_image.configure(image=CTkImage(
                         image, image, con.IMAGE_SIZES[0]))
@@ -56,7 +55,8 @@ def load_image(
                     if not len(image_base) == 3:
                         print("the var image_base has more than 3 items")
                     image: ImageFile.ImageFile = Image.open(
-                        str(f"{getcwd()}/{con.IMAGE_PATH}/{image_base[0]}_{image_base[1]}_{image_base[2]}.{format}"))
+                        str(f"{getcwd()}/{con.IMAGE_PATH}"
+                            f"/{image_base[0]}_{image_base[1]}_{image_base[2]}.{format_type}"))
                     if con.view_type == "portrait-simple":
                         moon_image.configure(image=CTkImage(
                             image, image, con.IMAGE_SIZES[0]))
@@ -118,7 +118,9 @@ class DepPanel(CTkToplevel):
 
         def load_dep_item(item: str, dep_item: str, item_to_be_moved: Optional[str]) -> None:
             deprecated_item = self._dep_items[dep_item]
-            moving_item = self._moving_items[item_to_be_moved if item_to_be_moved is not None else "None"]
+            moving_item = self._moving_items[item_to_be_moved
+                                             if item_to_be_moved is not None
+                                             else "None"]
 
             match item:
                 case "Load_Button":
@@ -133,7 +135,8 @@ class DepPanel(CTkToplevel):
             load_dep_item, "Load_Button", "load_button", "info_dialog")
         self.load_filedialog = CTkSwitch(
             self, width=22, height=12, text="Load from filedialog",
-            onvalue="on", offvalue="off", variable=self.load_filedialog_var, command=partial_load_dep_item
+            onvalue="on", offvalue="off",
+            variable=self.load_filedialog_var, command=partial_load_dep_item
         )
         self.load_filedialog.place(x=11, y=16)
 
@@ -210,7 +213,7 @@ class InfoPanel(CTkToplevel):
         self.orientation.set("South Up")
         self.orientation.place(x=179, y=187)
 
-        partial_update = partial(self.update, image_frame, image)
+        partial_update = partial(self.update_info, image_frame, image)
         self.update_button = CTkButton(
             self, text="Update", command=partial_update)
         self.update_button.place(x=100, y=262)
@@ -224,7 +227,7 @@ class InfoPanel(CTkToplevel):
 
         return date
 
-    def update(self, image_frame: CTkFrame, image: CTkLabel) -> None:
+    def update_info(self, image_frame: CTkFrame, image: CTkLabel) -> None:
         format_type: str = self.format_type.get().lower()
         style: str = self.style.get().lower()
         background_style: str = self.background_style.get().lower()
@@ -254,17 +257,17 @@ class InfoPanel(CTkToplevel):
                 image.place(x=13, y=11)
 
         requester.update_payload(
-            format_type,
-            style,
-            background_style,
-            background_color,
-            heading_color,
-            text_color,
-            latitude,
-            longitude,
-            date,
-            view_type,
-            orientation
+            format_type=format_type,
+            style=style,
+            background_style=background_style,
+            background_color=background_color,
+            heading_color=heading_color,
+            text_color=text_color,
+            latitude=latitude,
+            longitude=longitude,
+            date=date,
+            view_type=view_type,
+            orientation=orientation
         )
 
 
@@ -276,7 +279,7 @@ class App(CTk):
     def __init__(self):
         super().__init__()
 
-        requester.update_payload(*con.DEFAULTS)
+        requester.update_payload(**con.DEFAULTS)
 
         def load_image_from_filedialog() -> None:
             # ! Deprecated
