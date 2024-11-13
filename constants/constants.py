@@ -45,17 +45,3 @@ class Constants():
     date: str | None = None
     format_type: str | None = None
     view_type: str = DEFAULT_TYPE
-
-
-class Info():
-    format_type: str
-    moon_style: str
-    background_style: str
-    background_color: str
-    heading_color: str
-    text_color: str
-    latitude: float
-    longitude: float
-    date: str
-    view_type: str
-    orientation: str

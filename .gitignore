@@ -21,3 +21,6 @@ md.py
 
 # Ignore settings.py, which is only for intellisense
 website/settings.py
+
+# Ignore node_modules, for typescipt
+/node_modules

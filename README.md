@@ -30,11 +30,22 @@ python -m pip install -r requirements.txt
 # run the app (by defualt)
 py .\main.py
 # or
-# run the server app (Not even started, but hopefully soon!)
+# run the server app
 py .\main.py server
 ```
 
 Warning: web version is no where close to done
+
+### Typescript Files
+
+```Powershell
+# Install Typescript
+npm install
+# Run tsc
+npx tsc
+# or
+.\node_modules\.bin\tsc
+```
 
 ### Design
 
