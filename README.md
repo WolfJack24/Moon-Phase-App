@@ -56,6 +56,7 @@ Deprecated Items can be accessed by presing **F1**
 
 Versions:
 
+- Python ver: 3.13.0
 - App ver: 2.0.1
 - GUI ver: 3.2.0
 - Moon Phase Requester ver: 3.0.0
