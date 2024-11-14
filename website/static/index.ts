@@ -1,4 +1,7 @@
 const genButton = document.getElementById("gen-button") as HTMLButtonElement;
+const downloadButton = document.getElementById(
+	"download-button"
+) as HTMLButtonElement;
 const updateButton = document.getElementById(
 	"update-button"
 ) as HTMLButtonElement;
@@ -94,6 +97,38 @@ async function update() {
 			console.error("Error: ", err);
 		});
 
+	let view = viewType.options[viewType.selectedIndex].value;
+
+	switch (view) {
+		case "portrait-simple":
+			imageFrame.style.position = "absolute";
+			imageFrame.style.left = "52px";
+			imageFrame.style.top = "36px";
+			imageFrame.style.width = "221px";
+			imageFrame.style.height = "277px";
+
+			moonImage.style.position = "relative";
+			moonImage.style.left = "10px";
+			moonImage.style.top = "8px";
+			moonImage.style.height = "260px";
+			break;
+
+		case "landscape-simple":
+			imageFrame.style.position = "absolute";
+			imageFrame.style.left = "14px";
+			imageFrame.style.top = "81px";
+			imageFrame.style.width = "287px";
+			imageFrame.style.height = "182px";
+
+			moonImage.style.position = "relative";
+			moonImage.style.left = "13px";
+			moonImage.style.top = "11px";
+			moonImage.style.height = "160px";
+			break;
+	}
+
+	moonImage.src = "";
+
 	data.format = format.options[format.selectedIndex].value;
 	data.moonStyle = moonStyle.options[moonStyle.selectedIndex].value;
 	data.backgroundStyle =
@@ -110,7 +145,7 @@ async function update() {
 	data.longitude =
 		longitude.value != "" ? Number(longitude.value) : DEFAULT_LONGITUDE;
 	data.date = date.value != "" ? date.value : DEFAULT_DATE;
-	data.viewType = viewType.options[viewType.selectedIndex].value;
+	data.viewType = view;
 	data.moonOrientation =
 		moonOrientation.options[moonOrientation.selectedIndex].value;
 }

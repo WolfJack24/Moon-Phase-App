@@ -88,8 +88,8 @@ button:hover {
 	position: relative;
 	left: 10px;
 	top: 8px;
-	width: 200px;
 	height: 260px;
+	border: 0;
 }
 
 .recent-images-frame {
@@ -121,6 +121,13 @@ button:hover {
 	width: 153px;
 	height: 24px;
 	border-radius: 3px;
+}
+
+#download-button {
+	cursor: pointer;
+	position: absolute;
+	left: 341px;
+	top: 249px;
 }
 
 #gen-button {
