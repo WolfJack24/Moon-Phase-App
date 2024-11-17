@@ -83,6 +83,7 @@ class Data {
 }
 
 let hexAuthString = "";
+let imageUrl = "";
 let data = new Data();
 
 async function update() {
@@ -128,6 +129,7 @@ async function update() {
 	}
 
 	moonImage.src = "";
+	imageUrl = "";
 
 	data.format = format.options[format.selectedIndex].value;
 	data.moonStyle = moonStyle.options[moonStyle.selectedIndex].value;
@@ -148,6 +150,35 @@ async function update() {
 	data.viewType = view;
 	data.moonOrientation =
 		moonOrientation.options[moonOrientation.selectedIndex].value;
+}
+
+function downloadImage(fileBlob: Blob) {
+	// file download credits:
+	// https://openjavascript.info/2022/10/18/image-url-to-blob-in-javascript/
+	// https://www.youtube.com/watch?v=cP5E0b21f_Y
+
+	const url = URL.createObjectURL(fileBlob);
+
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = `image.${data.format}`;
+
+	a.style.display = "none";
+	document.body.appendChild(a);
+
+	a.click();
+
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
+}
+
+function download() {
+	if (imageUrl !== "") {
+		fetch(imageUrl)
+			.then((res) => res.blob())
+			.then((blob) => downloadImage(blob))
+            .catch((err) => console.error(`Error: ${err}`));
+	}
 }
 
 async function genImage() {
@@ -185,13 +216,24 @@ async function genImage() {
 	})
 		.then(async (res) => {
 			let data = await res.json();
-			moonImage.src = data.data.imageUrl;
+			imageUrl = data.data.imageUrl;
+			moonImage.src = imageUrl;
 		})
 		.catch((err) => {
 			console.error("Error: ", err);
 		});
 }
 
-updateButton.onclick = update;
-genButton.onclick = genImage;
+updateButton.onclick = async () => {
+	await update();
+};
+
+downloadButton.onclick = () => {
+	download();
+};
+
+genButton.onclick = async () => {
+	await genImage();
+};
+
 update();
