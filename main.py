@@ -18,18 +18,19 @@ def app_run() -> None:
     print(f"Constants ver: {constants.__version__}")
 
     app = App()
+    app.iconbitmap("assets/icons/icon.ico")
     app.mainloop()
 
     if path.exists("images"):
         subprocess.run(["rm", "-rf", "images"], check=True)
-        print("Images was was deleted.")
+        print("The image folder was deleted.")
     else:
-        print("Images was not created.")
+        print("The image folder was not created.")
 
 
 def server_run() -> None:
     webapp = create_webapp()
-    webapp.run(debug=False)
+    webapp.run()
 
 
 def main():
@@ -39,8 +40,8 @@ def main():
                 server_run()
             case _:
                 print(
-                    "Usage: main.py\n\t"
-                    "server: open the server version")
+                    "Usage: main.py\n"
+                    "    server: open the server version")
     else:
         app_run()
 

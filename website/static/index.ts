@@ -177,7 +177,7 @@ function download() {
 		fetch(imageUrl)
 			.then((res) => res.blob())
 			.then((blob) => downloadImage(blob))
-            .catch((err) => console.error(`Error: ${err}`));
+			.catch((err) => console.error(`Error: ${err}`));
 	}
 }
 
