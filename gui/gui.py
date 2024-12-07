@@ -78,8 +78,10 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
         if "statusCode" in parsed_data:
             print(json.dumps(parsed_data, indent=4))
         elif "data" in parsed_data:
-            requester.download_image(
-                parsed_data["data"]["imageUrl"], f"{image_name}.{con.format_type}")
+            Thread(target=requester.download_image,
+                   args=(parsed_data["data"]["imageUrl"],
+                         f"{image_name}.{con.format_type}"),
+                   name="requester.download_image").start()
             print(
                 f"The image {image_name}.{con.format_type} was downloaded!"
             )
@@ -96,12 +98,6 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
                    con.format_type, recent_cmb, moon_image, None)
     else:
         print("The image data was not a dictionary")
-
-
-def download_thread(cmb: CTkComboBox, moon_image: CTkLabel) -> None:
-    gdit = Thread(target=get_and_download_image, args=(cmb, moon_image),
-                  name="get_and_download_image")
-    gdit.start()
 
 
 class DepPanel(CTkToplevel):
@@ -351,10 +347,10 @@ class App(CTk):
             self, text="Set Info", command=open_infopanel)
         self.info_dialog.place(x=330, y=251)  # origanel (x=330, y=216)
 
-        partial_download_thread = partial(
-            download_thread, self.recent, self.moon_image)
+        partial_get_and_download_image = partial(
+            get_and_download_image, self.recent, self.moon_image)
         self.gen_button = CTkButton(
-            self, text="Gen Image", command=partial_download_thread)
+            self, text="Gen Image", command=partial_get_and_download_image)
         self.gen_button.place(x=330, y=286)
 
         dep_items: dict[str, Any] = {
