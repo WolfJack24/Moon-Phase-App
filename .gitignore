@@ -24,6 +24,3 @@ website/settings.py
 
 # Ignore node_modules, for typescipt
 /node_modules
-
-# Ignore exe build system
-exe
