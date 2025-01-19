@@ -100,6 +100,12 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
     else:
         print("The image data was not a dictionary")
 
+def download_thread(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> None:
+    gdi = Thread(
+                target=get_and_download_image,
+                args=(recent_cmb, moon_image),
+                name="get_and_download_image")
+    gdi.start()
 
 class DepPanel(CTkToplevel):
     def __init__(self, dep_items: dict[str, Any], moving_items: dict[str, Any]):
@@ -348,10 +354,10 @@ class App(CTk):
             self, text="Set Info", command=open_infopanel)
         self.info_dialog.place(x=330, y=251)  # origanel (x=330, y=216)
 
-        partial_get_and_download_image = partial(
-            get_and_download_image, self.recent, self.moon_image)
+        partial_download_thread = partial(
+            download_thread, self.recent, self.moon_image)
         self.gen_button = CTkButton(
-            self, text="Gen Image", command=partial_get_and_download_image)
+            self, text="Gen Image", command=partial_download_thread)
         self.gen_button.place(x=330, y=286)
 
         dep_items: dict[str, Any] = {
