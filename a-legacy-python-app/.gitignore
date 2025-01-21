@@ -1,0 +1,26 @@
+# Ignore the __pycache__ folder
+__pycache__
+
+# Ignore th .venv folder
+.venv
+
+# Ignore the images folder
+/images
+
+# Ignore the .env file
+.env
+
+# Ignore .vscode
+.vscode
+
+# ignore "custom" markdown creator "md.py"
+md.py
+
+# ignore the pylint checker
+*.bat
+
+# Ignore settings.py, which is only for intellisense
+website/settings.py
+
+# Ignore node_modules, for typescipt
+/node_modules
