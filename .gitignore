@@ -1,3 +1,6 @@
 # Ignore binaries and object files
 bin/
 obj/
+
+# Ignore build folders
+build/
