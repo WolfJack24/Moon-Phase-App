@@ -11,6 +11,6 @@ A "simple" app to request a specific moon phase by date and other parameters to 
 ```
 
 When first run it will prompt for a App ID and Secret.
-To get them, go to [docs.astronomyapi.com]("https://docs.astronomyapi.com/") and follow the `Get Started` section
+To get them, go to [Astronomy API Docs](https://docs.astronomyapi.com/) and follow the `Get Started` section
 
 Happy Coding!
