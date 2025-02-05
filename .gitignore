@@ -4,3 +4,6 @@ obj/
 
 # Ignore build folders
 build/
+
+# Ignore Secret Stuff
+Secret/
