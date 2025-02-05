@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MoonPhaseApp.App"
+             RequestedThemeVariant="Dark">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+
+    <Application.Resources>
+        <WindowIcon x:Key="Icon">Assets/Icons/icon.ico</WindowIcon>
+        <SolidColorBrush x:Key="WindowBackground">#242424</SolidColorBrush>
+
+        <FontFamily x:Key="RobotoFont">Assets/Fonts#Roboto Regular</FontFamily>
+        <FontFamily x:Key="AlegreyaFont">Assets/Fonts#Alegreya Regular</FontFamily>
+
+        <SolidColorBrush x:Key="ButtonBackground">#1F6AA5</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonForeground">#FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderColour">#565B5E</SolidColorBrush>
+    </Application.Resources>
+</Application>

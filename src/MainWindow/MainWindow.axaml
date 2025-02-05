@@ -1,0 +1,107 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="MoonPhaseApp.MainWindow"
+    Title="Moon Phase App"
+    Icon="{StaticResource Icon}"
+    CanResize="False"
+    Width="500" Height="351"
+    Background="{StaticResource WindowBackground}"
+>
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="140" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="FontFamily" Value="{StaticResource RobotoFont}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Background" Value="{StaticResource ButtonBackground}" />
+            <Setter Property="Foreground" Value="{StaticResource ButtonForeground}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Canvas>
+            <!-- Image Stuff -->
+            <Rectangle
+                x:Name="FrameRectangle"
+                Canvas.Left="29" Canvas.Top="37"
+                Width="221" Height="277"
+                Fill="#303030"
+                RadiusX="5" RadiusY="5"
+            />
+            <Border
+                x:Name="FrameBorder"
+                Canvas.Left="29" Canvas.Top="37"
+                Width="221" Height="277"
+                BorderThickness="10"
+                CornerRadius="5" 
+                BorderBrush="#303030"
+            >
+                <Image
+                    x:Name="Image"
+                    Width="200" Height="260"
+                />
+            </Border>
+
+            <!-- Recent Image Stuff -->
+            <Panel
+                Canvas.Left="295" Canvas.Top="37"
+                Width="187" Height="70"
+                Background="#303030"
+            >
+                <Grid>
+                    <Canvas>
+                        <TextBlock
+                            Canvas.Left="17" Canvas.Top="5"
+                            FontFamily="{StaticResource RobotoFont}"
+                            FontSize="12"
+                        >
+                            Recent Images
+                        </TextBlock>
+
+                        <ComboBox 
+                            x:Name="RecentImages"
+                            Canvas.Left="17" Canvas.Top="28"
+                            Width="153" Height="28"
+                            MinHeight="28" MaxHeight="28"
+                            Padding="12 5 0 5"
+                            MaxDropDownHeight="200"
+                            FontFamily="{StaticResource RobotoFont}"
+                            FontSize="12"
+                        >
+                            <ComboBoxItem Content="Test" />
+                        </ComboBox>
+                    </Canvas> 
+                </Grid>
+            </Panel>
+
+            <!-- Buttons -->
+            <Button
+                x:Name="SetInfo"
+                Canvas.Left="342" Canvas.Top="216"
+                Click="SetInfo_Click"
+            >
+                Set Info
+            </Button>
+
+            <Button
+                x:Name="SaveImage"
+                Canvas.Left="342" Canvas.Top="251"
+            >
+                Save Image
+            </Button>
+            
+            <Button
+                x:Name="GenerateImage"
+                Canvas.Left="342" Canvas.Top="286"
+                Click="GenerateImage_Click"
+            >
+                Generate Image
+            </Button>
+        </Canvas>
+    </Grid>
+</Window>

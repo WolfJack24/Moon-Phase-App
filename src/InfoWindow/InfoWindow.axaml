@@ -1,0 +1,166 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="MoonPhaseApp.InfoWindow"
+    Title="Info" Width="340" Height="311"
+    Icon="{StaticResource Icon}"
+    Background="{StaticResource WindowBackground}"
+    CanResize="False"
+>
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource RobotoFont}" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="{StaticResource RobotoFont}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Width" Value="140" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="MaxHeight" Value="28" />
+            <Setter Property="Padding" Value="12 5 0 5" />
+        </Style>
+
+        <Style Selector="ComboBox">
+            <Setter Property="FontFamily" Value="{StaticResource RobotoFont}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Width" Value="140" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="MaxHeight" Value="28" />
+            <Setter Property="Padding" Value="12 5 0 5" />
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Canvas>
+            <TextBlock
+                Canvas.Left="22" Canvas.Top="21"
+                Text="Format:"
+            />
+
+            <ComboBox
+                x:Name="ImageFormat"
+                Canvas.Left="22" Canvas.Top="38"
+                SelectedIndex="0"
+            >
+                <ComboBoxItem Content="PNG" />
+                <ComboBoxItem Content="SVG" />
+            </ComboBox>
+
+            <TextBlock
+                Canvas.Left="22" Canvas.Top="71"
+                Text="Style:"
+            />
+
+            <ComboBox
+                x:Name="MoonStyle"
+                Canvas.Left="22" Canvas.Top="88"
+                SelectedIndex="0"
+            >
+                <ComboBoxItem Content="Default" />
+                <ComboBoxItem Content="Sketch" />
+                <ComboBoxItem Content="Shaded" />
+            </ComboBox>
+
+            <ComboBox
+                x:Name="BackgroundStyle"
+                Canvas.Left="22" Canvas.Top="121"
+                SelectedIndex="0"
+            >
+                <ComboBoxItem Content="Stars" />
+                <ComboBoxItem Content="Solid" />
+            </ComboBox>
+
+            <TextBox 
+                x:Name="BackgroundColor"
+                Canvas.Left="22" Canvas.Top="154"
+                Text="Background Colour"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBox
+                x:Name="HeadingColor"
+                Canvas.Left="22" Canvas.Top="187"
+                Text="Heading Colour"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBox
+                x:Name="TextColor"
+                Canvas.Left="22" Canvas.Top="220"
+                Text="Text Colour"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBlock
+                Canvas.Left="179" Canvas.Top="21"
+                Text="Observer:"
+            />
+
+            <TextBox
+                x:Name="Latitude"
+                Canvas.Left="179" Canvas.Top="38"
+                Text="Latitude"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBox
+                x:Name="Longitude"
+                Canvas.Left="179" Canvas.Top="71"
+                Text="Longitude"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBox
+                x:Name="Date"
+                Canvas.Left="179" Canvas.Top="104"
+                Text="YYYY-MM-DD"
+                GotFocus="TextBox_OnFocus"
+                LostFocus="TextBox_LostFocus"
+            />
+
+            <TextBlock
+                Canvas.Left="179" Canvas.Top="137"
+                Text="View:"
+            />
+
+            <ComboBox
+                x:Name="ViewType"
+                Canvas.Left="179" Canvas.Top="154"
+                SelectedIndex="0"
+            >
+                <ComboBoxItem Content="Portrait Simple" />
+                <ComboBoxItem Content="Landscape Simple" />
+            </ComboBox>
+
+
+            <ComboBox
+                x:Name="Orientation"
+                Canvas.Left="179" Canvas.Top="187"
+                SelectedIndex="1"
+            >
+                <ComboBoxItem Content="North Up" />
+                <ComboBoxItem Content="South Up" />
+            </ComboBox>
+
+            <Button
+                x:Name="UpdateButton"
+                Content="Update"
+                Canvas.Left="100" Canvas.Top="262"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Click="UpdateInfo_Click"
+            />
+        </Canvas>
+    </Grid>
+</Window>
