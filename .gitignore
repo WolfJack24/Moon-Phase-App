@@ -6,4 +6,4 @@ obj/
 build/
 
 # Ignore Secret Stuff
-Secret/
+Assets/Secret
