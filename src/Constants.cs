@@ -6,7 +6,7 @@ public static class Constants
 {
     public static readonly string DirectoryPath = Environment.CurrentDirectory;
     public static readonly string AssetsPath = $"{DirectoryPath}/Assets";
-    public static readonly string FileDir = $"{DirectoryPath}/Secret";
+    public static readonly string FileDir = $"{AssetsPath}/Secret";
     public static readonly string FileName = $"{FileDir}/Secret.bin";
 
     // Format

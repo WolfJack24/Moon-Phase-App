@@ -72,6 +72,10 @@ public partial class MainWindow : Window
             {
                 var imageUrl = imageUrlElement.GetString();
                 Console.WriteLine(imageUrl);
+                if (imageUrl != null)
+                    //? Load into a Thread to avoid blocking the UI
+                    Image.Source = ImageLoader.LoadFromWeb(
+                        new Uri(imageUrl)).Result ?? new Bitmap($"{Constants.AssetsPath}/Icons/icon.png");
             }
             else
             {
