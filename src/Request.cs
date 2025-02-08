@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace MoonPhaseApp;
@@ -12,12 +14,14 @@ public class Request
 {
     private static readonly HttpClient client = new();
 
-    public async Task<string> GetImage()
+    public static async Task GetImage(ChannelWriter<string> writer)
     {
+        string data;
         var request = new HttpRequestMessage(
             HttpMethod.Post,
             "https://api.astronomyapi.com/api/v2/studio/moon-phase"
         );
+        Console.WriteLine("[class Request] Setup request");
 
         string Body = JsonSerializer.Serialize(new
         {
@@ -43,17 +47,20 @@ public class Request
             },
         });
         request.Content = new StringContent(Body);
+        Console.WriteLine("[class Request] Setup body");
 
         List<string> secret = SetSecret.LoadSecret();
 
         if (secret.Count != 2)
         {
-            return "13";
+            data = "13";
         }
         string Auth = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{secret[0]}:{secret[1]}"));
         request.Headers.Add("Authorization", $"Basic {Auth}");
+        Console.WriteLine("[class Request] Setup auth");
 
         var response = await client.SendAsync(request);
+        Console.WriteLine("[class Request] Sent request");
 
         HttpStatusCode status = response.StatusCode;
         if (status != HttpStatusCode.OK)
@@ -64,12 +71,20 @@ public class Request
 #if DEBUG
                     Console.WriteLine(response);
 #endif
-                    return "";
+                    data = "";
+                    break;
                 default:
-                    return $"{Convert.ToInt32(status)}";
+                    data = $"{Convert.ToInt32(status)}";
+                    break;
             }
         }
 
-        return await response.Content.ReadAsStringAsync();
+        data = await response.Content.ReadAsStringAsync();
+        Console.WriteLine($"[class Request] Got response: {data}");
+        if (!writer.TryWrite(data))
+        {
+            Console.WriteLine("Error: Could not write to the Channel.");
+        }
+        writer.Complete();
     }
 }

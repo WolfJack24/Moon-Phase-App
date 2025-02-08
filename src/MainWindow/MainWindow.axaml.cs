@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Avalonia.Controls;
@@ -47,14 +49,19 @@ public partial class MainWindow : Window
         _infoWindow?.Show();
     }
 
-    private void GenerateImage_Click(object sender, RoutedEventArgs e)
+    private async void ImageStuff()
     {
-        Request rq = new();
+        Channel<string> getImageChannel = Channel.CreateUnbounded<string>();
+        Channel<Bitmap> imageChannel = Channel.CreateUnbounded<Bitmap>();
 
-        Task<string> DataTask = Task.Run(rq.GetImage);
-        string data = DataTask.Result;
+        await Request.GetImage(getImageChannel.Writer);
 
-        if (data != string.Empty)
+        if (!getImageChannel.Reader.TryRead(out string? data))
+        {
+            Console.WriteLine("Error: No data returned from the Channel.");
+        }
+
+        if (data != string.Empty && data != null)
         {
             if (data == "13")
             {
@@ -71,11 +78,26 @@ public partial class MainWindow : Window
                 dataElement.TryGetProperty("imageUrl", out JsonElement imageUrlElement))
             {
                 var imageUrl = imageUrlElement.GetString();
-                Console.WriteLine(imageUrl);
                 if (imageUrl != null)
-                    //? Load into a Thread to avoid blocking the UI
-                    Image.Source = ImageLoader.LoadFromWeb(
-                        new Uri(imageUrl)).Result ?? new Bitmap($"{Constants.AssetsPath}/Icons/icon.png");
+                {
+                    Console.WriteLine("Loading Image...");
+                    Thread imageThread = new(
+                        new ThreadStart(() => ImageLoader.LoadFromWeb(imageChannel.Writer, new Uri(imageUrl))));
+                    imageThread.Start();
+                    imageThread.Join();
+                }
+                else
+                {
+                    Console.WriteLine("Error: Image URL is null.");
+                    return;
+                }
+
+                var image = await imageChannel.Reader.ReadAsync();
+                //? This program will crash from this point as it is calling Image which if know how Threads work
+                //? it should be Thread[0] but this function get called in a new Thread => Thread[1]
+                //? in othercase - if i am correct - it is basically a null pointer => 0x0000...
+                Image.Source = image ?? new Bitmap($"{Constants.AssetsPath}/Icons/icon.png");
+                Console.WriteLine("Image Loaded.");
             }
             else
             {
@@ -86,5 +108,15 @@ public partial class MainWindow : Window
                 }
             }
         }
+        else
+        {
+            Console.WriteLine("Error: Data returned from the Channel but was null.");
+        }
+    }
+
+    private void GenerateImage_Click(object sender, RoutedEventArgs e)
+    {
+        Thread thread = new(ImageStuff);
+        thread.Start();
     }
 }

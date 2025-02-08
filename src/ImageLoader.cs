@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 using Avalonia.Media.Imaging;
@@ -12,10 +13,10 @@ public class ImageLoader
 {
     private static readonly ConcurrentDictionary<string, Bitmap> _imageCache = new();
 
-    public static async Task<Bitmap?> LoadFromWeb(Uri url)
+    public static async void LoadFromWeb(ChannelWriter<Bitmap> writer, Uri url)
     {
         if (_imageCache.TryGetValue(url.ToString(), out var cached))
-            return cached;
+            writer.TryWrite(cached);
 
         try
         {
@@ -26,12 +27,13 @@ public class ImageLoader
 
             var bitmap = new Bitmap(new MemoryStream(data));
             _imageCache.TryAdd(url.ToString(), bitmap);
-            return bitmap;
+            writer.TryWrite(bitmap);
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"Error Loading Image: {url}, {ex.Message}");
-            return null;
+            return;
         }
+        writer.Complete();
     }
 }
