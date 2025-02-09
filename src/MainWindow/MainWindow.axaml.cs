@@ -17,6 +17,8 @@ public partial class MainWindow : Window
     InfoWindow? _infoWindow = new();
     SetSecret? _setSecret = new();
 
+    Bitmap? currentImage = new($"{Constants.AssetsPath}/Icons/icon.png");
+
     public MainWindow()
     {
         InitializeComponent();
@@ -40,7 +42,7 @@ public partial class MainWindow : Window
         _setSecret = null;
         _infoWindow?.Close();
         _infoWindow = null;
-        // ? If run in terminal it does not finish the "process" so we call Exit
+        //? If run in terminal it does not finish the "process" so we call Exit
         Environment.Exit(0);
     }
 
@@ -81,10 +83,7 @@ public partial class MainWindow : Window
                 if (imageUrl != null)
                 {
                     Console.WriteLine("Loading Image...");
-                    Thread imageThread = new(
-                        new ThreadStart(() => ImageLoader.LoadFromWeb(imageChannel.Writer, new Uri(imageUrl))));
-                    imageThread.Start();
-                    imageThread.Join();
+                    ImageLoader.LoadFromWeb(imageChannel.Writer, new Uri(imageUrl));
                 }
                 else
                 {
@@ -92,11 +91,7 @@ public partial class MainWindow : Window
                     return;
                 }
 
-                var image = await imageChannel.Reader.ReadAsync();
-                //? This program will crash from this point as it is calling Image which if know how Threads work
-                //? it should be Thread[0] but this function get called in a new Thread => Thread[1]
-                //? in othercase - if i am correct - it is basically a null pointer => 0x0000...
-                Image.Source = image ?? new Bitmap($"{Constants.AssetsPath}/Icons/icon.png");
+                currentImage = await imageChannel.Reader.ReadAsync();
                 Console.WriteLine("Image Loaded.");
             }
             else
@@ -118,5 +113,8 @@ public partial class MainWindow : Window
     {
         Thread thread = new(ImageStuff);
         thread.Start();
+        thread.Join();
+
+        Image.Source = currentImage ?? new Bitmap($"{Constants.AssetsPath}/Icons/icon.png");
     }
 }
