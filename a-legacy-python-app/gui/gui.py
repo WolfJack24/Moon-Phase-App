@@ -77,12 +77,14 @@ def get_and_download_image(recent_cmb: CTkComboBox, moon_image: CTkLabel) -> Non
         parsed_data = json.loads(parsed_data)
         if "statusCode" in parsed_data:
             # print(json.dumps(parsed_data, indent=4))
-            print(f"Error Happends {parsed_data["statusCode"]}")
+            # print(f"Error Happends {parsed_data["statusCode"]}")
+            print("Error happend while getting image")
         elif "data" in parsed_data:
-            Thread(target=requester.download_image,
+            download_thread: Thread = Thread(target=requester.download_image,
                    args=(parsed_data["data"]["imageUrl"],
                          f"{image_name}.{con.format_type}"),
-                   name="requester.download_image").start()
+                   name="requester.download_image")
+            download_thread.start()
             print(
                 f"The image {image_name}.{con.format_type} was downloaded!"
             )
