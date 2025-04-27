@@ -1,0 +1,9 @@
+# Ignore binaries and object files
+bin/
+obj/
+
+# Ignore build folders
+build/
+
+# Ignore Secret Stuff
+Assets/Secret

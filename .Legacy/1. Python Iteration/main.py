@@ -33,7 +33,7 @@ def server_run() -> None:
     webapp.run()
 
 
-def main():
+def main() -> None:
     if len(argv) == 2:
         match argv[1]:
             case "server":
