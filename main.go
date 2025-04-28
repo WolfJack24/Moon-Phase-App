@@ -9,13 +9,16 @@ import (
 
 //go:embed all:frontend/dist
 var assets embed.FS
+var payloadservice = &PayloadService{}
+var colourservice = &ColourService{}
 
 func main() {
 	app := application.New(application.Options{
-		Name: "MoonPhaseApp",
+		Name:        "MoonPhaseApp",
 		Description: "A Wails application to display the moon phase",
 		Services: []application.Service{
-			application.NewService(&PayloadService{}),
+			application.NewService(payloadservice),
+			application.NewService(colourservice),
 		},
 		Assets: application.AssetOptions{
 			Handler: application.AssetFileServerFS(assets),
@@ -26,17 +29,17 @@ func main() {
 	})
 
 	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
-		Title: "Moon Phase App",
-		Width: 500,
-		Height: 351,
-		URL: "/",
+		Title:         "Moon Phase App",
+		Width:         500,
+		Height:        351,
+		URL:           "/",
 		DisableResize: true,
 		Mac: application.MacWindow{
 			InvisibleTitleBarHeight: 50,
-			Backdrop: application.MacBackdropTranslucent,
-			TitleBar: application.MacTitleBarHiddenInset,
+			Backdrop:                application.MacBackdropTranslucent,
+			TitleBar:                application.MacTitleBarHiddenInset,
 		},
-		BackgroundColour: application.NewRGB(27, 38, 54),
+		BackgroundColour: colourservice.HexToRGB(WindowBackground),
 	})
 
 	err := app.Run()

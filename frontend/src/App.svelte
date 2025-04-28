@@ -1,49 +1,52 @@
 <script lang="ts">
 	// Imports
+	import { Payload, Colours } from "../bindings/changeme/models";
 	import { CreatePayload } from "../bindings/changeme/payloadservice";
-	import { Payload } from "../bindings/changeme/models";
+	import { GetColour } from "../bindings/changeme/colourservice";
 
 	// Local Classes and Interfaces
 
 	// Global Variables
-	let payload: Payload = new Payload();
+	let payload: Payload = createPayload();
 	let currentImage: string =
 		"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/330px-FullMoon2010.jpg";
 
 	// Functions
-	function createPayload(): Promise<Payload> {
-		return new Promise((resolve) => {
-			Promise.resolve().then(async () => {
-				payload = await CreatePayload();
-				if (payload) {
-					console.log("Payload created successfully");
-					resolve(payload);
-				} else {
-					throw new Error("Failed to create payload");
-				}
+	function createPayload(): Payload {
+		let localpayload: Payload = new Payload();
+		Promise.all([CreatePayload()])
+			.then((results) => {
+				localpayload = results[0];
+			})
+			.catch((error) => {
+				console.error("Error creating payload:", error);
 			});
-		});
+		return localpayload;
 	}
 
-	async function init(): Promise<void> {
-		try {
-			payload = await createPayload();
-		} catch (error) {
-			console.error("Error during initialization:", error);
-		}
+	function getColour(colour: Colours): string {
+		let colourstring: string = "";
+		Promise.all([GetColour(colour)])
+			.then((results) => {
+				colourstring = results[0];
+			})
+			.catch((error) => {
+				console.error("Error getting colour:", error);
+			});
+		return colourstring;
 	}
-
-	init();
 </script>
 
-<div class="img-container">
+<div
+	class="img-container"
+	style="background-color: {getColour(Colours.ButtonBackgroundColour)}"
+>
 	<img src={currentImage} alt="Current Selected Moon Phase" class="img" />
 </div>
 
 <style>
-	.img-container {
-		background-color: aqua;
-	}
+	/* .img-container {
+	} */
 
 	.img {
 		width: 160px;
