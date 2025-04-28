@@ -9,14 +9,14 @@ A "simple" app to see Moon Phases
 
 Tools
 
-- Wails : CLI v2.10.1
+- Wails : v3.0.0-alpha.9
 - Go : go1.24.1 windows/amd64
 
-[[Wails Dependicies](https://wails.io/docs/gettingstarted/installation#dependencies)]
+[[Wails V3-Alpha](https://v3alpha.wails.io/getting-started/installation/)]
 
 ```Powershell
-> go install github.com/wailsapp/wails/v2/cmd/wails@latest
-> wails dev
-> wails build -debug # For debug build with devtools
-> wails build # For production build
+> go install -v github.com/wailsapp/wails/v3/cmd/wails3@latest
+> wails3 dev
+  # or
+> wails3 build
 ```
