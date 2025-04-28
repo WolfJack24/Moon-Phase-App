@@ -1,3 +1,4 @@
+*.syso
 .task
 bin
 frontend/dist
