@@ -1,10 +1,9 @@
 <script lang="ts">
 	// Imports
-	import { main } from "../wailsjs/go/models";
-	import { CreatePayload } from "../wailsjs/go/main/App";
+	import { CreatePayload } from "../bindings/changeme/payloadservice";
+	import { Payload } from "../bindings/changeme/models";
 
 	// Local Classes and Interfaces
-	class Payload extends main.Payload {}
 
 	// Global Variables
 	let payload: Payload = new Payload();
@@ -25,6 +24,7 @@
 			});
 		});
 	}
+
 	async function init(): Promise<void> {
 		try {
 			payload = await createPayload();
@@ -37,7 +37,7 @@
 </script>
 
 <div class="img-container">
-	<img src={currentImage} alt="Current Moon Phase" class="img" />
+	<img src={currentImage} alt="Current Selected Moon Phase" class="img" />
 </div>
 
 <style>

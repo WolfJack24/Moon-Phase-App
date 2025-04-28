@@ -2,37 +2,46 @@ package main
 
 import (
 	"embed"
+	"log"
 
-	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 //go:embed all:frontend/dist
 var assets embed.FS
 
 func main() {
-	app := NewApp()
-
-	err := wails.Run(&options.App {
-		Title:  "Moon Phase App", // Need Better Name, Please!
-		Width:  500,
-		Height: 351,
-		DisableResize: true,
-		AssetServer: &assetserver.Options {
-			Assets: assets,
+	app := application.New(application.Options{
+		Name: "MoonPhaseApp",
+		Description: "A Wails application to display the moon phase",
+		Services: []application.Service{
+			application.NewService(&PayloadService{}),
 		},
-		BackgroundColour: &options.RGBA {R: 27, G: 38, B: 54, A: 1},
-		OnStartup: app.startup,
-		Bind: []interface{} {
-			app,
+		Assets: application.AssetOptions{
+			Handler: application.AssetFileServerFS(assets),
 		},
-		Debug: options.Debug {
-			OpenInspectorOnStartup: true,
+		Mac: application.MacOptions{
+			ApplicationShouldTerminateAfterLastWindowClosed: true,
 		},
 	})
 
+	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
+		Title: "Moon Phase App",
+		Width: 500,
+		Height: 351,
+		URL: "/",
+		DisableResize: true,
+		Mac: application.MacWindow{
+			InvisibleTitleBarHeight: 50,
+			Backdrop: application.MacBackdropTranslucent,
+			TitleBar: application.MacTitleBarHiddenInset,
+		},
+		BackgroundColour: application.NewRGB(27, 38, 54),
+	})
+
+	err := app.Run()
+
 	if err != nil {
-		println("Error:", err.Error())
+		log.Fatal(err)
 	}
 }
