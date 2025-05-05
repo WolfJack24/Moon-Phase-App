@@ -6,41 +6,29 @@
 
 	// Local Classes and Interfaces
 
-	// Global Variables
-	let payload: Payload = createPayload();
-	let currentImage: string =
-		"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/330px-FullMoon2010.jpg";
-
 	// Functions
-	function createPayload(): Payload {
-		let localpayload: Payload = new Payload();
-		Promise.all([CreatePayload()])
-			.then((results) => {
-				localpayload = results[0];
-			})
-			.catch((error) => {
-				console.error("Error creating payload:", error);
-			});
-		return localpayload;
+	async function createPayload(): Promise<Payload> {
+		return await CreatePayload();
 	}
 
-	function getColour(colour: Colours): string {
-		let colourstring: string = "";
-		Promise.all([GetColour(colour)])
-			.then((results) => {
-				colourstring = results[0];
-			})
-			.catch((error) => {
-				console.error("Error getting colour:", error);
-			});
-		return colourstring;
+	async function getColour(colour: Colours): Promise<string> {
+		return await GetColour(colour);
 	}
+
+	// Global Variables
+	let payload: Payload = new Payload();
+	let currentImage: string = "";
+	let ButtonBack: string = "";
+
+	(async () => {
+		payload = await createPayload();
+		currentImage =
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/330px-FullMoon2010.jpg";
+		ButtonBack = await getColour(Colours.ButtonBackgroundColour);
+	})();
 </script>
 
-<div
-	class="img-container"
-	style="background-color: {getColour(Colours.ButtonBackgroundColour)}"
->
+<div class="img-container" style="background-color: {ButtonBack}">
 	<img src={currentImage} alt="Current Selected Moon Phase" class="img" />
 </div>
 
