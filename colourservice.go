@@ -10,17 +10,13 @@ import (
 
 type ColourService struct{}
 
-//? All clours are from blue.json from CustomTkinter
-//? But in hex format from:
-//? https://github.com/WolfJack24/Morse-Code-Translator/blob/main/assets/theme/blue_in_hex.json
-
 // TODO: Figure out how to use these colours in the frontend
 // * a struct seems painful, and enum has a weird syntax - another days problem
 
-type Colours int
+type Colour int
 
 const (
-	TextColour Colours = iota
+	TextColour Colour = iota
 	WindowBackgroundColour
 	FrameBackgroundColour
 	ButtonBackgroundColour
@@ -35,8 +31,12 @@ const (
 	ComboboxBorderColour
 	ComboboxHoverColour
 	ComboboxTextColour
+	ColourCount
 )
 
+// ? All clours are from blue.json from CustomTkinter
+// ? But in hex format from:
+// ? https://github.com/WolfJack24/Morse-Code-Translator/blob/main/assets/theme/blue_in_hex.json
 const (
 	Text = "#DCE4EE"
 
@@ -95,7 +95,7 @@ func (c *ColourService) HexToRGB(hex string) application.RGBA {
 	}
 }
 
-func (c *ColourService) GetColour(colour Colours) string {
+func (c *ColourService) GetColour(colour Colour) string {
 	switch colour {
 	case TextColour:
 		{

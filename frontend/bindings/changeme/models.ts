@@ -5,7 +5,7 @@
 // @ts-ignore: Unused imports
 import {Create as $Create} from "@wailsio/runtime";
 
-export enum Colours {
+export enum Colour {
     /**
      * The Go zero value for the underlying type of the enum.
      */
@@ -26,6 +26,7 @@ export enum Colours {
     ComboboxBorderColour = 12,
     ComboboxHoverColour = 13,
     ComboboxTextColour = 14,
+    ColourCount = 15,
 };
 
 export class Payload {

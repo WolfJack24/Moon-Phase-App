@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Imports
-	import { Payload, Colours } from "../bindings/changeme/models";
+	import { Payload, Colour } from "../bindings/changeme/models";
 	import { CreatePayload } from "../bindings/changeme/payloadservice";
 	import { GetColour } from "../bindings/changeme/colourservice";
 
@@ -11,24 +11,27 @@
 		return await CreatePayload();
 	}
 
-	async function getColour(colour: Colours): Promise<string> {
+	async function getColour(colour: Colour): Promise<string> {
 		return await GetColour(colour);
 	}
 
 	// Global Variables
 	let payload: Payload = new Payload();
 	let currentImage: string = "";
-	let ButtonBack: string = "";
+	let Colours: Array<string> = [];
 
 	(async () => {
 		payload = await createPayload();
-		currentImage =
-			"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/330px-FullMoon2010.jpg";
-		ButtonBack = await getColour(Colours.ButtonBackgroundColour);
+		for (let i = 0; i < Colour.ColourCount; i++) {
+			Colours[i] = await getColour(i);
+		}
 	})();
 </script>
 
-<div class="img-container" style="background-color: {ButtonBack}">
+<div
+	class="img-container"
+	style="background-color: {Colours[Colour.FrameBackgroundColour]}"
+>
 	<img src={currentImage} alt="Current Selected Moon Phase" class="img" />
 </div>
 

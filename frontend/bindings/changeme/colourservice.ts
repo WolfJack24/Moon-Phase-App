@@ -13,7 +13,7 @@ import * as application$0 from "../github.com/wailsapp/wails/v3/pkg/application/
 // @ts-ignore: Unused imports
 import * as $models from "./models.js";
 
-export function GetColour(colour: $models.Colours): Promise<string> & { cancel(): void } {
+export function GetColour(colour: $models.Colour): Promise<string> & { cancel(): void } {
     let $resultPromise = $Call.ByID(4215640907, colour) as any;
     return $resultPromise;
 }

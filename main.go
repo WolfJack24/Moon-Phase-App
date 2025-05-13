@@ -29,7 +29,7 @@ func main() {
 	})
 
 	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
-		Title:         "Moon Phase App",
+		Title:         "Moon Phase App", // Need a better name
 		Width:         500,
 		Height:        351,
 		URL:           "/",
