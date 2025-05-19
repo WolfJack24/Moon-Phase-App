@@ -29,8 +29,8 @@ func main() {
 	})
 
 	app.NewWebviewWindowWithOptions(application.WebviewWindowOptions{
-		Title:         "Moon Phase App", // Need a better name
-		Width:         500,
+		Title:         "Moon Phase App", // TODO: Need a better name
+		Width:         511,
 		Height:        351,
 		URL:           "/",
 		DisableResize: true,
@@ -39,7 +39,7 @@ func main() {
 			Backdrop:                application.MacBackdropTranslucent,
 			TitleBar:                application.MacTitleBarHiddenInset,
 		},
-		BackgroundColour: colourservice.HexToRGB(WindowBackground),
+		BackgroundColour: application.RGBA(colourservice.HexToRGB(WindowBackground)),
 	})
 
 	err := app.Run()

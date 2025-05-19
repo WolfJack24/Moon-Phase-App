@@ -4,8 +4,6 @@ import (
 	"log"
 	"strconv"
 	"strings"
-
-	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 type ColourService struct{}
@@ -71,7 +69,14 @@ const (
 	// Don't use Scrollbars, SegmentedButton, Textbox, ScrollableFrame and DropdownMenus
 )
 
-func (c *ColourService) HexToRGB(hex string) application.RGBA {
+type RGBA struct {
+	Red uint8
+	Green uint8
+	Blue uint8
+	Alpha uint8 //? Awoo?
+} 
+
+func (c *ColourService) HexToRGB(hex string) RGBA {
 	// Remove the '#' character
 	hex = strings.TrimPrefix(hex, "#")
 
@@ -82,12 +87,11 @@ func (c *ColourService) HexToRGB(hex string) application.RGBA {
 	}
 
 	// Extract the RGB values from the hex value
-	var r, g, b uint8
-	r = uint8(((hexvalue >> 16) & 0xFF))
-	g = uint8(((hexvalue >> 8) & 0xFF))
-	b = uint8((hexvalue & 0xFF))
+	r := uint8(((hexvalue >> 16) & 0xFF))
+	g := uint8(((hexvalue >> 8) & 0xFF))
+	b := uint8((hexvalue & 0xFF))
 
-	return application.RGBA{
+	return RGBA {
 		Red:   r,
 		Green: g,
 		Blue:  b,
