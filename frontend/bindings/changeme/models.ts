@@ -104,3 +104,40 @@ export class Payload {
         return new Payload($$parsedSource as Partial<Payload>);
     }
 }
+
+export class RGBA {
+    "Red": number;
+    "Green": number;
+    "Blue": number;
+
+    /**
+     * ? Awoo?
+     */
+    "Alpha": number;
+
+    /** Creates a new RGBA instance. */
+    constructor($$source: Partial<RGBA> = {}) {
+        if (!("Red" in $$source)) {
+            this["Red"] = 0;
+        }
+        if (!("Green" in $$source)) {
+            this["Green"] = 0;
+        }
+        if (!("Blue" in $$source)) {
+            this["Blue"] = 0;
+        }
+        if (!("Alpha" in $$source)) {
+            this["Alpha"] = 0;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new RGBA instance from a string or object.
+     */
+    static createFrom($$source: any = {}): RGBA {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new RGBA($$parsedSource as Partial<RGBA>);
+    }
+}

@@ -7,10 +7,6 @@ import {Call as $Call, Create as $Create} from "@wailsio/runtime";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore: Unused imports
-import * as application$0 from "../github.com/wailsapp/wails/v3/pkg/application/models.js";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore: Unused imports
 import * as $models from "./models.js";
 
 export function GetColour(colour: $models.Colour): Promise<string> & { cancel(): void } {
@@ -18,7 +14,7 @@ export function GetColour(colour: $models.Colour): Promise<string> & { cancel():
     return $resultPromise;
 }
 
-export function HexToRGB(hex: string): Promise<application$0.RGBA> & { cancel(): void } {
+export function HexToRGB(hex: string): Promise<$models.RGBA> & { cancel(): void } {
     let $resultPromise = $Call.ByID(3793569354, hex) as any;
     let $typingPromise = $resultPromise.then(($result: any) => {
         return $$createType0($result);
@@ -28,4 +24,4 @@ export function HexToRGB(hex: string): Promise<application$0.RGBA> & { cancel():
 }
 
 // Private type creation functions
-const $$createType0 = application$0.RGBA.createFrom;
+const $$createType0 = $models.RGBA.createFrom;
