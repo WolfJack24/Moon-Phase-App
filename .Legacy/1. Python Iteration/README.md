@@ -11,7 +11,7 @@ Beware onclose of the app it deletes the folder with the images in it!
 
 ## Get-Started
 
-First off get yourself a API key for free at: [Astronomy API](https://docs.astronomyapi.com/)
+First off get yourself an API key for free at: [Astronomy API](https://docs.astronomyapi.com/)
 
 When you get your `APP_ID` and `APP_SECRET`, make a `.env` file that looks like this:
 
@@ -52,7 +52,7 @@ npx tsc
 The layout of this project is a Figma file:
 [Moon Phase App Layout](https://www.figma.com/design/45IkxmpJ02QLcfx7dg3Ve6/Moon-Phase-App?node-id=0-1&t=NAOEOGGjnye4eSVL-1)
 
-Deprecated Items can be accessed by presing **F1**
+Deprecated Items can be accessed by pressing **F1**
 
 Versions:
 

@@ -4,7 +4,8 @@ import json
 from typing import Final, Tuple, Dict, Any
 from os import getenv, path, mkdir
 import base64
-from requests import get as requestsget, Response, ConnectionError as RequestsConnectionError
+
+from requests import get, Response, ConnectionError as RequestsConnectionError
 from dotenv import load_dotenv
 from constants import Constants
 
@@ -100,8 +101,8 @@ class MoonPhaseRequester:
             kwargs.get("orientation")
         )
 
+    @staticmethod
     def payload_config(
-        self,
         format_type: S,
         moon_style: S,
         background_style: S,
@@ -174,9 +175,12 @@ class MoonPhaseRequester:
 
         return date_request, data
 
-    def download_image(self, url: str, filename: str) -> None:
+    @staticmethod
+    def download_image(url: str, filename: str) -> None:
+        response: Response = Response()
+
         try:
-            response: Response = requestsget(url, timeout=10)
+            response = get(url, timeout=10)
             print("Connection Successful!")
         except RequestsConnectionError:
             print("User is NOT connected to the internet!")
