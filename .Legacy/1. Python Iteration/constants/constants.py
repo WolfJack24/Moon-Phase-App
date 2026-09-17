@@ -3,7 +3,7 @@
 from typing import Any, Dict, Tuple
 
 
-class Constants():
+class Constants:
     # Image related vars
     IMAGE_PATH: str = "images"
     IMAGE_SIZES: list[Tuple[int, int]] = [(200, 260), (260, 160)]
@@ -38,7 +38,7 @@ class Constants():
         "longitude": DEFAULT_LONGITUDE,
         "date": DEFAULT_DATE,
         "view_type": DEFAULT_TYPE,
-        "orientation": DEFAULT_ORIENTATION
+        "orientation": DEFAULT_ORIENTATION,
     }
 
     # Shared Info

@@ -4,6 +4,7 @@ __version__ = "2.0.1"
 import subprocess
 from os import path
 from sys import argv
+
 import gui
 import moonphaserequester
 import constants
@@ -18,11 +19,11 @@ def app_run() -> None:
     print(f"Constants ver: {constants.__version__}")
 
     app = App()
-    app.iconbitmap("assets/icons/icon.ico")
+    app.iconbitmap("./assets/icons/icon.ico")
     app.mainloop()
 
-    if path.exists("images"):
-        subprocess.run(["rm", "-rf", "images"], check=True)
+    if path.exists("./images"):
+        subprocess.run(["rm", "-rf", "./images"], check=True)
         print("The image folder was deleted.")
     else:
         print("The image folder was not created.")
@@ -39,9 +40,7 @@ def main() -> None:
             case "server":
                 server_run()
             case _:
-                print(
-                    "Usage: main.py\n"
-                    "    server: open the server version")
+                print("Usage: main.py\n    server: open the server version")
     else:
         app_run()
 
